@@ -18,13 +18,50 @@ editor.setOptions({
 });
 
 let view = {
+  border: {
+    body:2,
+  },
   elements:{
+    body: document.body, 
+    header: document.getElementsByTagName("header")[0], 
+    main: document.getElementsByTagName("main")[0], 
+    menutab: document.getElementById("menutab"), 
+    footer: document.getElementsByTagName("footer")[0], 
     run: document.getElementById("run"),
     keyBinding: document.getElementById("keyBinding"),
     fontSize: document.getElementById("fontSize"),
     editor: document.getElementById("editor"),
     plotly: document.getElementById("plotly"),
+  },
+  fitHeight: function(){
+      let bodyBorderWidth = this.elements.body.style.borderWidth || 
+        window.getComputedStyle(this.elements.body, null).getPropertyValue('border')
+          .match(/(\d*).*px/)[1];
+      //let bodyBorderWidth = bodyBorder.match(/(\d*).*px/); 
+      //console.log(bodyBorder)
+      console.log(bodyBorderWidth)
+      let height = window.innerHeight
+        - this.elements.header.getBoundingClientRect().height
+        - this.elements.menutab.getBoundingClientRect().height
+        - this.elements.footer.getBoundingClientRect().height
+        - bodyBorderWidth*2 ;
+      this.elements.editor.style.height = height + "px"
+  },
+  initialize: function(){
+    this.svgResize.initEvent("svgResize",true,false);
+    this.setview();
+    window.addEventListener('resize', function (e) {
+      console.log('resizing width:'+ window.innerWidth + "height:" + window.innerHeight);
+      if (view.resizeTimer !== false) {
+        clearTimeout(view.resizeTimer);
+      }
+      view.resizeTimer = setTimeout(function () {
+        console.log('resized width:'+ window.innerWidth + "height:" + window.innerHeight);
+        view.setview();
+      }, view.interval);
+    },false);
   }
+
 };
 
 
@@ -87,4 +124,5 @@ editor.commands.addCommand({
 
 
 control.set();
+view.fitHeight();
 }

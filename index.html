@@ -9,44 +9,51 @@
   <script type="module" src="scripts/index.js"></script>
 </head>
 <body>
-  <h1>jsnote</h1>
-  <ul class="menutab">
-    <li class="run">
-      <a id="run">run</a>
-    </li>
-    <li>
-      <ul class="sidebyside">
-        <li>editor mode</li>
-        <li>
-          <form>
-            <select name="Key Binding" id="keyBinding">
-            <option value="vim" selected>Vim</option>
-            <option value="emacs">Emacs</option>
-            <option value="">Ace</option>
-            </select>
-          </form>
-        </li>
-      </ul>
-    </li>
-    <li>
-      <ul class="sidebyside">
-        <li>font size</li>
-        <li>
-          <form>
-            <select name="Font Size" id="fontSize">
-            <option value="10pt">10pt</option>
-            <option value="11pt">11pt</option>
-            <option value="12pt" selected >12pt</option>
-            <option value="13pt">13pt</option>
-            <option value="14pt">14pt</option>
-            <option value="16pt">16pt</option>
-            </select>
-          </form>
-        </li>
-      </ul>
-    </li>
-  </ul>
-  <div id="editor" style="height: 600px"></div>
-  <div id="plotly-div"></div>
+  <header>
+    <h1>jsnote</h1>
+  </header>
+  <main>
+    <ul class="menutab"id="menutab">
+      <li class="run">
+        <a id="run">run</a>
+      </li>
+      <li>
+        <ul class="sidebyside">
+          <li>editor mode</li>
+          <li>
+            <form>
+              <select name="Key Binding" id="keyBinding">
+              <option value="vim" selected>Vim</option>
+              <option value="emacs">Emacs</option>
+              <option value="">Ace</option>
+              </select>
+            </form>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul class="sidebyside">
+          <li>font size</li>
+          <li>
+            <form>
+              <select name="Font Size" id="fontSize">
+              <option value="10pt">10pt</option>
+              <option value="11pt">11pt</option>
+              <option value="12pt" selected >12pt</option>
+              <option value="13pt">13pt</option>
+              <option value="14pt">14pt</option>
+              <option value="16pt">16pt</option>
+              </select>
+            </form>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <div id="editor"></div>
+    <div id="plotly-div"></div>
+  </main>
+  <footer>
+    <small>Copyright January 2018 jsnote assosiation</small>
+  </footer>
 </body>
 </html>
