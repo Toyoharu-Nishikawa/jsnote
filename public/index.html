@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>jsnote</title>
+  <link rel="stylesheet" type="text/css" href="styles/main.css">
   <script src="scripts/plotly/plotly-latest.min.js"></script>
   <script src="scripts/ace/ace.js" type="text/javascript" charset="utf=8"></script>
   <script src="scripts/FileSaver/FileSaver.js"></script>
@@ -9,26 +10,42 @@
 </head>
 <body>
   <h1>jsnote</h1>
-  <form>
-    <input type='button' id='run' value="run">
-  </form>
-  <form>
-    <select name="Key Binding" id="keyBinding">
-    <option value="vim" selected>Vim</option>
-    <option value="emacs">Emacs</option>
-    <option value="">Ace</option>
-    </select>
-  </form>
-  <form>
-    <select name="Font Size" id="fontSize">
-    <option value="10pt">10pt</option>
-    <option value="11pt">11pt</option>
-    <option value="12pt" selected >12pt</option>
-    <option value="13pt">13pt</option>
-    <option value="14pt">14pt</option>
-    <option value="16pt">16pt</option>
-    </select>
-  </form>
+  <ul class="menutab">
+    <li class="run">
+      <a id="run">run</a>
+    </li>
+    <li>
+      <ul class="sidebyside">
+        <li>editor mode</li>
+        <li>
+          <form>
+            <select name="Key Binding" id="keyBinding">
+            <option value="vim" selected>Vim</option>
+            <option value="emacs">Emacs</option>
+            <option value="">Ace</option>
+            </select>
+          </form>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <ul class="sidebyside">
+        <li>font size</li>
+        <li>
+          <form>
+            <select name="Font Size" id="fontSize">
+            <option value="10pt">10pt</option>
+            <option value="11pt">11pt</option>
+            <option value="12pt" selected >12pt</option>
+            <option value="13pt">13pt</option>
+            <option value="14pt">14pt</option>
+            <option value="16pt">16pt</option>
+            </select>
+          </form>
+        </li>
+      </ul>
+    </li>
+  </ul>
   <div id="editor" style="height: 600px"></div>
   <div id="plotly-div"></div>
 </body>
