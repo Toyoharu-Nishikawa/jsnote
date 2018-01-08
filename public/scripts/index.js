@@ -1,12 +1,17 @@
 //jsnote namespace
 "use strict"
 {
-/*reference url about addCommand
+/*reference url about ace editor 
 https://github.com/ajaxorg/ace/issues/91
+https://stackoverflow.com/questions/29620161/how-to-set-indent-size-in-ace-editor
 */
 let editor = ace.edit('editor');
 editor.setTheme("ace/theme/monokai");
-editor.getSession().setMode("ace/mode/javascript");
+editor.getSession().setOptions({
+  mode: "ace/mode/javascript",
+  tabSize: 2,
+  useSoftTabs: true
+}); 
 editor.setKeyboardHandler("ace/keyboard/vim");
 editor.setOptions({
   fontSize: "13pt"
