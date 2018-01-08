@@ -10,7 +10,24 @@
 <body>
   <h1>jsnote</h1>
   <form>
-    <input type='button' id='button' value="run">
+    <input type='button' id='run' value="run">
+  </form>
+  <form>
+    <select name="Key Binding" id="keyBinding">
+    <option value="vim" selected>Vim</option>
+    <option value="emacs">Emacs</option>
+    <option value="">Ace</option>
+    </select>
+  </form>
+  <form>
+    <select name="Font Size" id="fontSize">
+    <option value="10pt">10pt</option>
+    <option value="11pt">11pt</option>
+    <option value="12pt" selected >12pt</option>
+    <option value="13pt">13pt</option>
+    <option value="14pt">14pt</option>
+    <option value="16pt">16pt</option>
+    </select>
   </form>
   <div id="editor" style="height: 600px"></div>
   <div id="plotly-div"></div>
