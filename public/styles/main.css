@@ -1,3 +1,6 @@
+*{
+  margin: 0;
+}
 body{
   margin: 0;
   border: 2px solid #708090;
@@ -44,6 +47,17 @@ h1 {
   padding: 0px 5px 0px 0px;
   color: #3e5358;
 }
+#drawArea {
+  overflow:heddin;
+}
+#drawArea.not-checked  {
+  display: none;
+}
+#drawArea.checked {
+  display: block;
+}
+
+
 
 footer{
   display: flex;
