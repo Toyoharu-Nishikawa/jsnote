@@ -1,10 +1,11 @@
-//jsnote namespace
+//jsnote namespac
 "use strict"
 {
 /*reference url about ace editor 
 https://github.com/ajaxorg/ace/issues/91
 https://stackoverflow.com/questions/29620161/how-to-set-indent-size-in-ace-editor
 */
+
 let editor = ace.edit('editor');
 editor.setTheme("ace/theme/monokai");
 editor.getSession().setOptions({
@@ -17,10 +18,23 @@ editor.setOptions({
   fontSize: "13pt"
 });
 
+/*
+let editor2 = ace.edit('draw');
+editor2.setTheme("ace/theme/monokai");
+editor2.getSession().setOptions({
+  mode: "ace/mode/javascript",
+  tabSize: 2,
+  useSoftTabs: true
+}); 
+editor2.setKeyboardHandler("ace/keyboard/vim");
+editor2.setOptions({
+  fontSize: "13pt"
+});
+
+*/
 let view = {
-  border: {
-    body:2,
-  },
+  drawBoxFlag: false,
+  drawBoxHeight: 300,
   elements:{
     body: document.body, 
     header: document.getElementsByTagName("header")[0], 
@@ -31,37 +45,48 @@ let view = {
     keyBinding: document.getElementById("keyBinding"),
     fontSize: document.getElementById("fontSize"),
     editor: document.getElementById("editor"),
-    plotly: document.getElementById("plotly"),
+    draw: document.getElementById("draw"),
+    drawCheckBox: document.getElementById("drawCheckBox"),
   },
   fitHeight: function(){
-      let bodyBorderWidth = this.elements.body.style.borderWidth || 
-        window.getComputedStyle(this.elements.body, null).getPropertyValue('border')
-          .match(/(\d*).*px/)[1];
-      //let bodyBorderWidth = bodyBorder.match(/(\d*).*px/); 
-      //console.log(bodyBorder)
-      console.log(bodyBorderWidth)
-      let height = window.innerHeight
-        - this.elements.header.getBoundingClientRect().height
-        - this.elements.menutab.getBoundingClientRect().height
-        - this.elements.footer.getBoundingClientRect().height
-        - bodyBorderWidth*2 ;
-      this.elements.editor.style.height = height + "px"
+    let bodyBorderWidth = this.elements.body.style.borderWidth || 
+      window.getComputedStyle(this.elements.body, null).getPropertyValue('border')
+        .match(/(\d*).*px/)[1];
+    let height = window.innerHeight
+      - this.elements.header.getBoundingClientRect().height
+      - this.elements.menutab.getBoundingClientRect().height
+      - this.elements.footer.getBoundingClientRect().height
+      - bodyBorderWidth*2 ;
+
+    height = this.drawBoxFlag ? height - this.elements.draw.getBoundingClientRect().height : height;
+    this.elements.editor.style.height = height + "px";
+    return this;
+  },
+  showDrawBox: function(){
+    this.elements.draw.style.height = this.drawBoxHeight + "px"
+    this.fitHeight();
+  },
+  hideDrawBox: function(){
+    this.elements.draw.style.height =  "0px";
+    this.fitHeight();
   },
   initialize: function(){
-    this.svgResize.initEvent("svgResize",true,false);
-    this.setview();
-    window.addEventListener('resize', function (e) {
-      console.log('resizing width:'+ window.innerWidth + "height:" + window.innerHeight);
-      if (view.resizeTimer !== false) {
-        clearTimeout(view.resizeTimer);
-      }
-      view.resizeTimer = setTimeout(function () {
-        console.log('resized width:'+ window.innerWidth + "height:" + window.innerHeight);
-        view.setview();
-      }, view.interval);
+    //this.svgResize.initEvent("svgResize",true,false);
+    this.fitHeight();
+    this.elements.drawCheckBox.addEventListener('change',(e)=>{
+      let flag = e.target.checked;
+      this.drawBoxFlag=flag;
+      if(flag){ this.showDrawBox();console.log("checked") }
+      else{ this.hideDrawBox();console.log("not-checked") }
+      console.log(this.drawBoxFlag);
+    });
+    window.addEventListener('resize', (e)=> {
+      view.resizeTimer = setTimeout(()=>{
+        this.fitHeight();
+      }, 10);
     },false);
-  }
-
+    return this;
+  },
 };
 
 
@@ -71,6 +96,8 @@ let control = {
       execute: function(){
         let code = editor.getValue();
         new Function(code)();
+        view.fitHeight();
+        //eval(code)();
       },//end of execute
       add: function(){
         view.elements.run.addEventListener("click",(e)=>{
@@ -123,6 +150,6 @@ editor.commands.addCommand({
 });
 
 
+view.initialize();
 control.set();
-view.fitHeight();
 }
