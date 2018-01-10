@@ -65,10 +65,12 @@ let view = {
   showDrawBox: function(){
     this.elements.draw.style.height = this.drawBoxHeight + "px"
     this.fitHeight();
+    window.dispatchEvent(new Event('resize'));
   },
   hideDrawBox: function(){
     this.elements.draw.style.height =  "0px";
     this.fitHeight();
+    window.dispatchEvent(new Event('resize'));
   },
   initialize: function(){
     //this.svgResize.initEvent("svgResize",true,false);
