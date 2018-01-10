@@ -51,7 +51,7 @@ h1 {
   overflow:heddin;
 }
 #drawArea.not-checked  {
-  display: none;
+  height: 0%; 
 }
 #drawArea.checked {
   display: block;

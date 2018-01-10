@@ -1,10 +1,11 @@
-//jsnote namespace
+//jsnote namespac
 "use strict"
 {
 /*reference url about ace editor 
 https://github.com/ajaxorg/ace/issues/91
 https://stackoverflow.com/questions/29620161/how-to-set-indent-size-in-ace-editor
 */
+
 let editor = ace.edit('editor');
 editor.setTheme("ace/theme/monokai");
 editor.getSession().setOptions({
@@ -17,6 +18,20 @@ editor.setOptions({
   fontSize: "13pt"
 });
 
+/*
+let editor2 = ace.edit('draw');
+editor2.setTheme("ace/theme/monokai");
+editor2.getSession().setOptions({
+  mode: "ace/mode/javascript",
+  tabSize: 2,
+  useSoftTabs: true
+}); 
+editor2.setKeyboardHandler("ace/keyboard/vim");
+editor2.setOptions({
+  fontSize: "13pt"
+});
+
+*/
 let view = {
   drawBoxFlag: false,
   drawBoxHeight: 300,
@@ -32,7 +47,6 @@ let view = {
     editor: document.getElementById("editor"),
     draw: document.getElementById("draw"),
     drawCheckBox: document.getElementById("drawCheckBox"),
-    drawArea: document.getElementById("drawArea"),
   },
   fitHeight: function(){
     let bodyBorderWidth = this.elements.body.style.borderWidth || 
@@ -44,17 +58,16 @@ let view = {
       - this.elements.footer.getBoundingClientRect().height
       - bodyBorderWidth*2 ;
 
-    height = this.drawBoxFlag ? height - this.elements.drawArea.getBoundingClientRect().height : height;
+    height = this.drawBoxFlag ? height - this.elements.draw.getBoundingClientRect().height : height;
     this.elements.editor.style.height = height + "px";
     return this;
   },
   showDrawBox: function(){
-    this.elements.drawArea.style.height = this.drawBoxHeight + "px"
-    this.elements.drawArea.className = "checked";
+    this.elements.draw.style.height = this.drawBoxHeight + "px"
     this.fitHeight();
   },
   hideDrawBox: function(){
-    this.elements.drawArea.className = "not-checked";
+    this.elements.draw.style.height =  "0px";
     this.fitHeight();
   },
   initialize: function(){
@@ -135,6 +148,7 @@ editor.commands.addCommand({
   bindKey: {win:'Shift-Return',mac:'Shift-Return'},
   exec: control.func.run.execute,
 });
+
 
 view.initialize();
 control.set();
