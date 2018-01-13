@@ -18,23 +18,10 @@ editor.setOptions({
   fontSize: "13pt"
 });
 
-/*
-let editor2 = ace.edit('draw');
-editor2.setTheme("ace/theme/monokai");
-editor2.getSession().setOptions({
-  mode: "ace/mode/javascript",
-  tabSize: 2,
-  useSoftTabs: true
-}); 
-editor2.setKeyboardHandler("ace/keyboard/vim");
-editor2.setOptions({
-  fontSize: "13pt"
-});
-
-*/
 let view = {
   drawBoxFlag: false,
-  drawBoxHeight: 300,
+  drawBoxHeight: null,
+  drawBoxWidth: 500,
   elements:{
     body: document.body, 
     header: document.getElementsByTagName("header")[0], 
@@ -45,32 +32,44 @@ let view = {
     keyBinding: document.getElementById("keyBinding"),
     fontSize: document.getElementById("fontSize"),
     editor: document.getElementById("editor"),
+    drawArea: document.getElementById("drawArea"),
     draw: document.getElementById("draw"),
     drawCheckBox: document.getElementById("drawCheckBox"),
   },
   fitHeight: function(){
     let bodyBorderWidth = this.elements.body.style.borderWidth || 
       window.getComputedStyle(this.elements.body, null).getPropertyValue('border')
-        .match(/(\d*).*px/)[1];
+      .match(/(\d*).*px/)[1];
     let height = window.innerHeight
       - this.elements.header.getBoundingClientRect().height
       - this.elements.menutab.getBoundingClientRect().height
       - this.elements.footer.getBoundingClientRect().height
       - bodyBorderWidth*2 ;
 
-    height = this.drawBoxFlag ? height - this.elements.draw.getBoundingClientRect().height : height;
+    //height = this.drawBoxFlag ? height - this.elements.draw.getBoundingClientRect().height : height;
     this.elements.editor.style.height = height + "px";
+    this.elements.drawArea.style.height = height + "px";
+    this.elements.drawArea.style.width = this.drawBoxWidth + "px";
+    this.elements.draw.style.height = height + "px";
+    this.elements.draw.style.width = this.drawBoxWidth + "px";
     return this;
   },
   showDrawBox: function(){
-    this.elements.draw.style.height = this.drawBoxHeight + "px"
-    this.fitHeight();
+    //this.elements.drawArea.style.height = this.drawBoxHeight + "px"
+    //this.fitHeight();
+    //this.elements.drawArea.style.height= this.elements.editor.style.height;
+    //this.elements.drawArea.style.width = this.drawBoxWidth + "px";
+    this.elements.drawArea.className =  "display";
     window.dispatchEvent(new Event('resize'));
+    return this;
   },
   hideDrawBox: function(){
-    this.elements.draw.style.height =  "0px";
+    //this.elements.drawArea.style.height =  "0px";
+    //this.elements.drawArea.style.width =  "0px";
+    this.elements.drawArea.className =  "not_display";
     this.fitHeight();
     window.dispatchEvent(new Event('resize'));
+    return this;
   },
   initialize: function(){
     //this.svgResize.initEvent("svgResize",true,false);
@@ -151,6 +150,13 @@ editor.commands.addCommand({
   exec: control.func.run.execute,
 });
 
+editor.commands.addCommand({
+  name:'draw',
+  bindKey: {win:'Shift-Tab',mac:'Shift-Tab'},
+  exec: function(){
+    view.elements.drawCheckBox.click();
+  },
+});
 
 view.initialize();
 control.set();

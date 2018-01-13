@@ -47,18 +47,28 @@ h1 {
   padding: 0px 5px 0px 0px;
   color: #3e5358;
 }
+
+.main {
+  position: relative;
+}
+#editor {
+  z-index: 0;
+}
 #drawArea {
-  overflow:heddin;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 60%;
+  z-index: 1;
+  background: #FFFAFA;
+  border-left: 3px solid #708090;
 }
-#drawArea.not-checked  {
-  height: 0%; 
-}
-#drawArea.checked {
+.display {
   display: block;
 }
-
-
-
+.not_display {
+  display: none;
+}
 footer{
   display: flex;
   background: #d9dfe1;
