@@ -37,8 +37,9 @@ let view = {
     drawCheckBox: document.getElementById("drawCheckBox"),
   },
   fitHeight: function(){
-    let bodyBorderWidth = this.elements.body.style.borderWidth || 
-      window.getComputedStyle(this.elements.body, null).getPropertyValue('border')
+    let bodyBorderWidth = (this.elements.body.style.borderWidth || 
+      window.getComputedStyle(this.elements.body, null)
+      .getPropertyValue('border'))
       .match(/(\d*).*px/)[1];
     let height = window.innerHeight
       - this.elements.header.getBoundingClientRect().height
@@ -46,7 +47,6 @@ let view = {
       - this.elements.footer.getBoundingClientRect().height
       - bodyBorderWidth*2 ;
 
-    //height = this.drawBoxFlag ? height - this.elements.draw.getBoundingClientRect().height : height;
     this.elements.editor.style.height = height + "px";
     this.elements.drawArea.style.height = height + "px";
     this.elements.drawArea.style.width = this.drawBoxWidth + "px";
@@ -54,32 +54,121 @@ let view = {
     this.elements.draw.style.width = this.drawBoxWidth + "px";
     return this;
   },
+  changeSizeOfBox: function(elem){
+    let self = this;
+    let drag = {
+      element: elem,
+      flag: false,
+      originalX: null,
+      originalWidth: null,
+      setElement: function(element){
+        this.element = element;
+      },
+      add:function(){
+        //console.log("add drag")
+        this.element.addEventListener('mousedown',this.mouseDown,false);
+        this.element.addEventListener('mouseup',this.mouseUp,false);
+      },
+      remove: function(){
+        //console.log("remove drag")
+        this.element.removeEventListener('mousedown',this.mouseDown,false);
+        this.element.removeEventListener('mousemove',this.mouseMove,false);
+        this.element.removeEventListener('mouseup',this.mouseUp,false);
+      },
+      mouseDown: function(e){
+        //console.log("mousedown");
+        let me = drag; 
+        me.flag = true;
+        me.originalX =  e.clientX;
+        me.originalWidth =  self.drawBoxWidth;
+        me.element.addEventListener('mousemove',me.mouseMove,false);
+      },
+      mouseUp: function(e){
+        //console.log("mouseup");
+        let me = drag; 
+        me.originalWidth =  null;
+        me.flag = false;
+        me.remove(me.element);
+      },
+      mouseMove: function(e){
+        //console.log("mousemove")
+        let me = drag; 
+        let currentX =  e.clientX;
+        self.drawBoxWidth = me.originalX - currentX + me.originalWidth;
+        self.elements.drawArea.style.width = self.drawBoxWidth + "px";
+        self.elements.draw.style.width = self.drawBoxWidth + "px";
+      }
+    };
+    let online = {
+      flag: false,
+      element:null,
+      setElement:function(element){
+        this.element = element;
+      },
+      add: function(){
+        this.element.addEventListener('mouseenter',this.mouseEnter,false);
+        this.element.addEventListener('mouseleave',this.mouseLeave,false);
+      },
+      remove: function(){
+        this.element.removeEventListener('mouseenter',this.mouseEnter,false);
+        this.element.removeEventListener('mouseleave',this.mouseLeave,false);
+        this.element.removeEventListener('mousemove',this.mouseMove,false);
+      },
+      mouseEnter: function(){
+        //console.log("mouse enter")
+        let me = online;
+        me.element.addEventListener('mousemove',me.mouseMove,false);
+      },
+      mouseLeave: function(e){
+        //console.log("mouse leave")
+        let me = online;
+        me.flag = false;
+        e.currentTarget.style.cursor = "default";
+        me.element.removeEventListener('mousemove',me.mouseMove,false);
+        if(!drag.flag){drag.remove();} 
+      },
+      mouseMove: function(e){
+        let me = online;
+        let originX = e.offsetX;
+        if(originX<10){
+          if(!me.flag){
+            me.flag = true;
+            e.currentTarget.style.cursor = "w-resize";
+            if(!drag.flag){drag.add();} 
+          }
+        }
+        else{
+          if(me.lag) {
+            me.flag = false;
+            e.currentTarget.style.cursor = "default";
+            if(!drag.flag){drag.remove();} 
+          }
+        }
+      },
+    };
+    drag.setElement(document.body)
+    online.setElement(elem);
+    online.add();
+  },
   showDrawBox: function(){
-    //this.elements.drawArea.style.height = this.drawBoxHeight + "px"
-    //this.fitHeight();
-    //this.elements.drawArea.style.height= this.elements.editor.style.height;
-    //this.elements.drawArea.style.width = this.drawBoxWidth + "px";
     this.elements.drawArea.className =  "display";
     window.dispatchEvent(new Event('resize'));
     return this;
   },
   hideDrawBox: function(){
-    //this.elements.drawArea.style.height =  "0px";
-    //this.elements.drawArea.style.width =  "0px";
     this.elements.drawArea.className =  "not_display";
     this.fitHeight();
     window.dispatchEvent(new Event('resize'));
     return this;
   },
   initialize: function(){
-    //this.svgResize.initEvent("svgResize",true,false);
     this.fitHeight();
+    this.changeSizeOfBox(this.elements.drawArea);
     this.elements.drawCheckBox.addEventListener('change',(e)=>{
       let flag = e.target.checked;
       this.drawBoxFlag=flag;
-      if(flag){ this.showDrawBox();console.log("checked") }
-      else{ this.hideDrawBox();console.log("not-checked") }
-      console.log(this.drawBoxFlag);
+      if(flag){ this.showDrawBox(); }
+      else{ this.hideDrawBox(); }
     });
     window.addEventListener('resize', (e)=> {
       view.resizeTimer = setTimeout(()=>{
