@@ -17,6 +17,7 @@ editor.setKeyboardHandler("ace/keyboard/vim");
 editor.setOptions({
   fontSize: "13pt"
 });
+editor.$blockScrolling = Infinity; 
 
 let view = {
   drawBoxFlag: false,
@@ -28,6 +29,12 @@ let view = {
     main: document.getElementsByTagName("main")[0], 
     menutab: document.getElementById("menutab"), 
     footer: document.getElementsByTagName("footer")[0], 
+    read: document.getElementById("read"),
+    readFile: document.getElementById("readFile"),
+    save: document.getElementById("save"),
+    import: document.getElementById("import"),
+    importFile: document.getElementById("importFile"),
+    clear: document.getElementById("clear"),
     run: document.getElementById("run"),
     keyBinding: document.getElementById("keyBinding"),
     fontSize: document.getElementById("fontSize"),
@@ -179,9 +186,61 @@ let view = {
   },
 };
 
-
 let control = {
   func: {
+    read: {
+      execute: function(){
+        let element = view.elements.readFile;
+        Files = [];
+        importFiles(element,Files)
+     },//end of execute
+      add: function(){
+        view.elements.read.addEventListener('click',(e)=>{
+          e.stopPropagation();
+          this.execute();
+        },false);
+      },//end of add
+    },//end of read
+    save: {
+      execute: function(){
+        function saveStringAsFile(string,filename){
+          var blob = new Blob([string], {type: 'text/plain; charset=utf-8'});
+          saveAs(blob, filename);
+        }
+        let string = editor.getValue();
+        saveStringAsFile(string, 'jsnote.txt');
+      },//end of execute
+      add: function(){
+        view.elements.save.addEventListener('click',(e)=>{
+          e.stopPropagation();
+          this.execute();
+        },false);
+      },//end of add
+    },//end of save
+    import: {
+      execute: function(){
+        let element = view.elements.importFile;
+
+        editor.setValue('');
+        let text = [];
+        importFiles(element,text,()=>{
+          editor.setValue(text[0].text);
+        });
+
+      },//end of execute
+      add: function(){
+        view.elements.import.addEventListener('click',(e)=>{
+          e.stopPropagation();
+          this.execute();
+        },false);
+      },//end of add
+    },//end of import
+    clear: {
+      execute: function(){
+      },//end of execute
+      add: function(){
+      },//end of add
+    },//end of clear
     run: {
       execute: function(){
         let code = editor.getValue();

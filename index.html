@@ -6,6 +6,7 @@
   <script src="scripts/plotly/plotly-latest.min.js"></script>
   <script src="scripts/ace/ace.js" type="text/javascript" charset="utf=8"></script>
   <script src="scripts/FileSaver/FileSaver.js"></script>
+  <script src="scripts/FileReader/FileReader.js"></script>
   <script type="module" src="scripts/index.js"></script>
 </head>
 <body>
@@ -16,10 +17,14 @@
       </li>
       <li id="read">
         <a >read</a>
-        <input type="file" name="files" multiple="multiple" style="display:none;">
+        <input id="readFile" type="file" name="files" multiple="multiple" style="display:none;">
       </li>
       <li id="save">save</li>
-      <li id="import">import</li>
+      <li id="import">
+        <a>import</a>
+        <input id="importFile" type="file" name="files"  style="display:none;">
+      </li>
+      </li>
       <li id="clear">clear</li>
   </header>
   <main>
