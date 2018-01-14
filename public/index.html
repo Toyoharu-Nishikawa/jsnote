@@ -6,16 +6,31 @@
   <script src="scripts/plotly/plotly-latest.min.js"></script>
   <script src="scripts/ace/ace.js" type="text/javascript" charset="utf=8"></script>
   <script src="scripts/FileSaver/FileSaver.js"></script>
+  <script src="scripts/FileReader/FileReader.js"></script>
   <script type="module" src="scripts/index.js"></script>
 </head>
 <body>
   <header>
-    <h1>jsnote</h1>
+    <ul class="header">
+      <li class="title">
+        <h1>jsnote</h1>
+      </li>
+      <li id="read">
+        <a >read</a>
+        <input id="readFile" type="file" name="files" multiple="multiple" style="display:none;">
+      </li>
+      <li id="save">save</li>
+      <li id="import">
+        <a>import</a>
+        <input id="importFile" type="file" name="files"  style="display:none;">
+      </li>
+      </li>
+      <li id="clear">clear</li>
   </header>
   <main>
     <ul class="menutab"id="menutab">
-      <li class="run">
-        <a id="run">run</a>
+      <li class="run" id="run">
+        <a>run</a>
       </li>
       <li>
         <ul class="sidebyside">
@@ -50,7 +65,7 @@
       </li>  
       <li>  
         <ul class="sidebyside">
-          <li>show draw box(id=draw)</small></li>
+          <li>draw box(id=draw)</small></li>
           <li>
             <input type="checkbox" id="drawCheckBox" >
           </li>
@@ -59,7 +74,8 @@
     </ul>
     <article class="main">
       <div id="editor"></div>
-      <div id="draw">
+      <div id="drawArea" class="not_display">
+        <div id="draw"></div>
       </div>
     </article>
   </main>
