@@ -1,0 +1,2 @@
+var importTexts = [];
+var exportText = "";

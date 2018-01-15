@@ -1,5 +1,4 @@
 "user strict"
-var Files =[];
 var importFiles = function(elem,data, callback) {
   function readFile(file){
     return new Promise((resolve,reject)=>{
