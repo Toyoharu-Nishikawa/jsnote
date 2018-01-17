@@ -5,7 +5,7 @@
 https://github.com/ajaxorg/ace/issues/91
 https://stackoverflow.com/questions/29620161/how-to-set-indent-size-in-ace-editor
 */
-
+/*
 let editor = ace.edit('editor');
 editor.setTheme("ace/theme/monokai");
 editor.getSession().setOptions({
@@ -18,7 +18,7 @@ editor.setOptions({
   fontSize: "13pt"
 });
 editor.$blockScrolling = Infinity; 
-
+*/
 let saveStringAsFile = function (string,filename){
   var blob = new Blob([string], {type: 'text/plain; charset=utf-8'});
   saveAs(blob, filename);
@@ -169,12 +169,12 @@ let view = {
   },
   hideDrawBox: function(){
     this.elements.drawArea.className =  "not_display";
-    this.fitHeight();
+    //this.fitHeight();
     window.dispatchEvent(new Event('resize'));
     return this;
   },
   initialize: function(){
-    this.fitHeight();
+//    this.fitHeight();
     this.changeSizeOfBox(this.elements.drawArea);
     this.elements.drawCheckBox.addEventListener('change',(e)=>{
       let flag = e.target.checked;
@@ -182,11 +182,13 @@ let view = {
       if(flag){ this.showDrawBox(); }
       else{ this.hideDrawBox(); }
     });
+   /*
     window.addEventListener('resize', (e)=> {
       view.resizeTimer = setTimeout(()=>{
         this.fitHeight();
       }, 10);
     },false);
+   */
     return this;
   },
 };
@@ -250,7 +252,7 @@ let control = {
       execute: function(){
         let code = editor.getValue();
         new Function(code)();
-        view.fitHeight();
+        //view.fitHeight();
         //eval(code)();
       },//end of execute
       add: function(){
