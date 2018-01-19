@@ -251,6 +251,7 @@ let control = {
     run: {
       execute: function(){
         let code = editor.getValue();
+        drawArea.innerHTML = "<div id='draw'></div>"
         new Function(code)();
         //view.fitHeight();
         //eval(code)();
