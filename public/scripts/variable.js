@@ -12,5 +12,5 @@ editor.setOptions({
   fontSize: "13pt"
 });
 editor.$blockScrolling = Infinity; 
-
+editor.setValue(window.localStorage.getItem("remember")|| "");
 
