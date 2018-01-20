@@ -1,7 +1,8 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <title>jsnote</title>
+  <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="styles/main.css">
   <script src="scripts/ace/ace.js" type="text/javascript" charset="utf=8"></script>
   <script src="scripts/FileSaver/FileSaver.js"></script>
@@ -29,11 +30,11 @@
         <a>import</a>
         <input id="importFile" type="file" name="files"  style="display:none;">
       </li>
-      </li>
       <li id="export">export</li>
+    </ul>
   </header>
   <main>
-    <ul class="menutab"id="menutab">
+    <ul class="menutab" id="menutab">
       <li class="run" id="run">
         <a>run</a>
       </li>
@@ -59,8 +60,8 @@
               <select name="Font Size" id="fontSize">
               <option value="10pt">10pt</option>
               <option value="11pt">11pt</option>
-              <option value="12pt" selected >12pt</option>
-              <option value="13pt">13pt</option>
+              <option value="12pt">12pt</option>
+              <option value="13pt" selected>13pt</option>
               <option value="14pt">14pt</option>
               <option value="16pt">16pt</option>
               </select>
@@ -70,7 +71,7 @@
       </li>  
       <li>  
         <ul class="sidebyside">
-          <li>draw box(id=draw)</small></li>
+          <li>draw box(id=draw)</li>
           <li>
             <input type="checkbox" id="drawCheckBox" >
           </li>

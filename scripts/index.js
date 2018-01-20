@@ -251,7 +251,8 @@ let control = {
     run: {
       execute: function(){
         let code = editor.getValue();
-        drawArea.innerHTML = "<div id='draw'></div>"
+        drawArea.innerHTML = "<div id='draw'></div>";
+        window.localStorage.setItem("remember",code);
         new Function(code)();
         //view.fitHeight();
         //eval(code)();
