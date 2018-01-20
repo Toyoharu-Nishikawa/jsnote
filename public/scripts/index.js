@@ -5,20 +5,7 @@
 https://github.com/ajaxorg/ace/issues/91
 https://stackoverflow.com/questions/29620161/how-to-set-indent-size-in-ace-editor
 */
-/*
-let editor = ace.edit('editor');
-editor.setTheme("ace/theme/monokai");
-editor.getSession().setOptions({
-  mode: "ace/mode/javascript",
-  tabSize: 2,
-  useSoftTabs: true
-}); 
-editor.setKeyboardHandler("ace/keyboard/vim");
-editor.setOptions({
-  fontSize: "13pt"
-});
-editor.$blockScrolling = Infinity; 
-*/
+
 let saveStringAsFile = function (string,filename){
   var blob = new Blob([string], {type: 'text/plain; charset=utf-8'});
   saveAs(blob, filename);
@@ -28,6 +15,7 @@ let view = {
   drawBoxFlag: false,
   drawBoxHeight: null,
   drawBoxWidth: 500,
+  sampleFlag: false,
   elements:{
     body: document.body, 
     header: document.getElementsByTagName("header")[0], 
@@ -40,6 +28,7 @@ let view = {
     import: document.getElementById("import"),
     importFile: document.getElementById("importFile"),
     export: document.getElementById("export"),
+    sample: document.getElementById("sample"),
     run: document.getElementById("run"),
     keyBinding: document.getElementById("keyBinding"),
     fontSize: document.getElementById("fontSize"),
@@ -47,6 +36,7 @@ let view = {
     drawArea: document.getElementById("drawArea"),
     draw: document.getElementById("draw"),
     drawCheckBox: document.getElementById("drawCheckBox"),
+    sampleArea: document.getElementById("sampleArea"),
   },
   fitHeight: function(){
     let bodyBorderWidth = (this.elements.body.style.borderWidth || 
@@ -248,6 +238,115 @@ let control = {
         },false);
       },//end of add
     },//end of clear
+    sample: {
+      getFlag: false,
+      sampleList: null,
+      execute: function(){
+        if(view.sampleFlag){this.hide();}
+        else {
+          this.show();
+          if(!this.getFlag){
+            this.getSample();
+            this.getFlag= true;
+          }
+        }
+      },//end of execute
+      show: function(){
+        view.elements.sample.className = "ongoing";
+        view.sampleFlag = true;
+        view.elements.sampleArea.className = "display";
+      },
+      hide: function(){
+        view.elements.sample.className = "";
+        view.sampleFlag = false;
+        view.elements.sampleArea.className = "not_display";
+      },
+      getSample: function(){
+        let req = new XMLHttpRequest();
+        req.open("GET","sample/list.json",true);
+        req.onload = (e)=>{
+          this.setSampleArea(req.response);
+        };
+        req.setRequestHeader("content-type","application/text");
+        req.responseType ="text";
+        req.send();
+      },
+      setSampleArea: function(json){
+        let list = JSON.parse(json)
+        let divContainer = document.createElement("div");
+        divContainer.className = "swiper-container";
+        let divWrapper = document.createElement("div");
+        divWrapper.className = "swiper-wrapper";
+        list.forEach((value,index,array)=>{
+          let divSlide = document.createElement("div");
+           divSlide.className = "swiper-slide";
+          let h2 = document.createElement("h2");
+          let title = document.createTextNode(value.category);
+          let article = document.createElement("article")
+          let ul = Array.from(Array(3), ()=>
+            document.createElement("ul")
+          );
+          value.list.forEach((value2,index2,array2)=>{
+            let sample = document.createTextNode(value2.title);
+            let li = document.createElement("li");
+            li.appendChild(sample);
+            li.onclick = this.insertSample(value.category, value2.code);
+            ul[index2%3].appendChild(li);
+          });
+          h2.appendChild(title);
+          divSlide.appendChild(h2);
+          ul.forEach((value3,index3,array3)=>{
+            article.appendChild(value3);
+          })
+          divSlide.appendChild(article);
+          divWrapper.appendChild(divSlide);
+        });
+        let divPagination = document.createElement("div");
+        divPagination.className = "swiper-pagination";
+        let divButtonPrev = document.createElement("div");
+        divButtonPrev.className = "swiper-button-prev";
+        let divButtonNext = document.createElement("div");
+        divButtonNext.className = "swiper-button-next";
+        divContainer.appendChild(divWrapper);
+        divContainer.appendChild(divPagination);
+        divContainer.appendChild(divButtonPrev);
+        divContainer.appendChild(divButtonNext);
+        view.elements.sampleArea.appendChild(divContainer);
+        let swiper = new Swiper(".swiper-container",{
+          slidesPerView: 1,
+          spaceBetween: 30,
+          loop: true,
+          observer: true,
+          pagination: {
+            el:'.swiper-pagination',
+            ckickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      },//end of setSample
+      insertSample: function(category, code){
+        return ()=>{
+          let req = new XMLHttpRequest();
+          let url = "sample/" + category + "/" +code;
+          req.open("GET",url,true);
+          req.onload = (e)=>{
+            editor.setValue(req.response);
+          };
+          req.setRequestHeader("content-type","application/text");
+          req.responseType ="text";
+          req.send();
+        }
+      },//end of insertSample
+      add: function(){
+        view.elements.sample.addEventListener('click',(e)=>{
+          e.stopPropagation();
+          this.execute();
+        });
+      },//end of add 
+    },//end of sample
     run: {
       execute: function(){
         let code = editor.getValue();
