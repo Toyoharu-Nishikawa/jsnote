@@ -68,7 +68,6 @@ main > article {
   background: #1495b5;
   color: #F5FFFA;
   transition: 1.2s;
-  /*background: #F5FFFA;*/
   cursor: pointer;
 }
 .menutab > li.run >a:hover {
@@ -104,12 +103,32 @@ main > article {
   background: #FFFFFF;
   border-left: 2px solid #1495b5;
 }
+#sampleArea {
+  position: absolute;
+  opacity: 0.9; 
+  height:80%;
+  margin: 0px;
+  padding: 0px;
+  top: 50px;
+  left: 50px;
+  width: 80%;
+  z-index: 2;
+  background: #FFFFFF;
+  border: 1px solid #1495b5;
+  border-radius: 20px 20px 20px 20px;
+}
+
 .display {
   display: block;
 }
 .not_display {
   display: none;
 }
+.ongoing {
+  background: #1495b5;
+  color: #F5FFFA;
+}
+
 footer{
   display: flex;
   background: #d9dfe1;

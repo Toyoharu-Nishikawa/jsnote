@@ -5,20 +5,7 @@
 https://github.com/ajaxorg/ace/issues/91
 https://stackoverflow.com/questions/29620161/how-to-set-indent-size-in-ace-editor
 */
-/*
-let editor = ace.edit('editor');
-editor.setTheme("ace/theme/monokai");
-editor.getSession().setOptions({
-  mode: "ace/mode/javascript",
-  tabSize: 2,
-  useSoftTabs: true
-}); 
-editor.setKeyboardHandler("ace/keyboard/vim");
-editor.setOptions({
-  fontSize: "13pt"
-});
-editor.$blockScrolling = Infinity; 
-*/
+
 let saveStringAsFile = function (string,filename){
   var blob = new Blob([string], {type: 'text/plain; charset=utf-8'});
   saveAs(blob, filename);
@@ -28,6 +15,7 @@ let view = {
   drawBoxFlag: false,
   drawBoxHeight: null,
   drawBoxWidth: 500,
+  sampleFlag: false,
   elements:{
     body: document.body, 
     header: document.getElementsByTagName("header")[0], 
@@ -40,6 +28,7 @@ let view = {
     import: document.getElementById("import"),
     importFile: document.getElementById("importFile"),
     export: document.getElementById("export"),
+    sample: document.getElementById("sample"),
     run: document.getElementById("run"),
     keyBinding: document.getElementById("keyBinding"),
     fontSize: document.getElementById("fontSize"),
@@ -47,6 +36,7 @@ let view = {
     drawArea: document.getElementById("drawArea"),
     draw: document.getElementById("draw"),
     drawCheckBox: document.getElementById("drawCheckBox"),
+    sampleArea: document.getElementById("sampleArea"),
   },
   fitHeight: function(){
     let bodyBorderWidth = (this.elements.body.style.borderWidth || 
@@ -248,6 +238,50 @@ let control = {
         },false);
       },//end of add
     },//end of clear
+    sample: {
+      getFlag: false,
+      sampleList: null,
+      execute: function(){
+        if(view.sampleFlag){this.hide();}
+        else {
+          this.show();
+          if(!this.getFlag){
+            this.getSample();
+            this.getFlag= true;
+          }
+        }
+      },//end of execute
+      show: function(){
+        view.elements.sample.className = "ongoing";
+        view.sampleFlag = true;
+        view.elements.sampleArea.className = "display";
+      },
+      hide: function(){
+        view.elements.sample.className = "";
+        view.sampleFlag = false;
+        view.elements.sampleArea.className = "not_display";
+      },
+      getSample: function(){
+        let req = new XMLHttpRequest();
+        req.open("GET","sample/list.csv",true);
+        req.onload = (e)=>{
+          this.setSample(req.response);
+        };
+        req.setRequestHeader("content-type","application/text");
+        req.responseType ="text";
+        req.send();
+      },
+      setSample: function(text){
+        let sampleText = document.createTextNode(text);
+        view.elements.sampleArea.appendChild(sampleText);
+      },
+      add: function(){
+        view.elements.sample.addEventListener('click',(e)=>{
+          e.stopPropagation();
+          this.execute();
+        });
+      },//end of add 
+    },//end of sample
     run: {
       execute: function(){
         let code = editor.getValue();
