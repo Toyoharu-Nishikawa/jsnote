@@ -9,17 +9,17 @@
       },
       {
         "title":"simple bar graph",
-        "code":"bar.js",
+        "code":"simple_bar.js",
         "explation": "simple bar graph"
       },
       {
         "title":"simple pie chart",
-        "code":"pie.js",
+        "code":"simple_pie.js",
         "explation": "simple pie chart"
       },
       {
         "title":"simple scatter plot",
-        "code":"scatter.js",
+        "code":"simple_scatter.js",
         "explation": "simple scatter plot"
       }
     ]
