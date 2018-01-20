@@ -315,7 +315,7 @@ let control = {
         let swiper = new Swiper(".swiper-container",{
           slidesPerView: 1,
           spaceBetween: 30,
-          loop: true,
+          loop: false,
           observer: true,
           pagination: {
             el:'.swiper-pagination',
@@ -328,7 +328,8 @@ let control = {
         });
       },//end of setSample
       insertSample: function(category, code){
-        return ()=>{
+        return (e)=>{
+          e.stopPropagation();
           let req = new XMLHttpRequest();
           let url = "sample/" + category + "/" +code;
           req.open("GET",url,true);
@@ -400,6 +401,34 @@ let control = {
   }//end of set
 };
 
+let key = {
+  keyDown: function(e){
+    switch(e.keyCode){
+      //keydown shift + Enter
+      case 13: //key code 13: Enter
+        if(e.shiftKey){
+          e.preventDefault();
+          //console.log("shift+Enter")
+          control.func.run.execute();
+        }
+        break;
+      case 9: //key code 9: Tab
+        if(e.shiftKey){
+          e.preventDefault();
+          //console.log("shift+Tab")
+          view.elements.drawCheckBox.click();
+        }
+        break;
+
+     default:
+        break;
+    }
+  },
+  add: function(){
+    document.addEventListener("keydown", this.keyDown, false)
+  }
+}
+
 editor.commands.addCommand({
   name:'run',
   bindKey: {win:'Shift-Return',mac:'Shift-Return'},
@@ -413,7 +442,7 @@ editor.commands.addCommand({
     view.elements.drawCheckBox.click();
   },
 });
-
+  
 editor.commands.addCommand({
   name:'clearAll',
   bindKey: {win:'Shift-Delete',mac:'Shift-Delete'},
@@ -421,7 +450,7 @@ editor.commands.addCommand({
     editor.setValue("");
   },
 });
-
+key.add();
 view.initialize();
 control.set();
 }
