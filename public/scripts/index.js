@@ -263,18 +263,83 @@ let control = {
       },
       getSample: function(){
         let req = new XMLHttpRequest();
-        req.open("GET","sample/list.csv",true);
+        req.open("GET","sample/list.json",true);
         req.onload = (e)=>{
-          this.setSample(req.response);
+          this.setSampleArea(req.response);
         };
         req.setRequestHeader("content-type","application/text");
         req.responseType ="text";
         req.send();
       },
-      setSample: function(text){
-        let sampleText = document.createTextNode(text);
-        view.elements.sampleArea.appendChild(sampleText);
-      },
+      setSampleArea: function(json){
+        let list = JSON.parse(json)
+        let divContainer = document.createElement("div");
+        divContainer.className = "swiper-container";
+        let divWrapper = document.createElement("div");
+        divWrapper.className = "swiper-wrapper";
+        list.forEach((value,index,array)=>{
+          let divSlide = document.createElement("div");
+           divSlide.className = "swiper-slide";
+          let h2 = document.createElement("h2");
+          let title = document.createTextNode(value.category);
+          let article = document.createElement("article")
+          let ul = Array.from(Array(3), ()=>
+            document.createElement("ul")
+          );
+          value.list.forEach((value2,index2,array2)=>{
+            let sample = document.createTextNode(value2.title);
+            let li = document.createElement("li");
+            li.appendChild(sample);
+            li.onclick = this.insertSample(value.category, value2.code);
+            ul[index2%3].appendChild(li);
+          });
+          h2.appendChild(title);
+          divSlide.appendChild(h2);
+          ul.forEach((value3,index3,array3)=>{
+            article.appendChild(value3);
+          })
+          divSlide.appendChild(article);
+          divWrapper.appendChild(divSlide);
+        });
+        let divPagination = document.createElement("div");
+        divPagination.className = "swiper-pagination";
+        let divButtonPrev = document.createElement("div");
+        divButtonPrev.className = "swiper-button-prev";
+        let divButtonNext = document.createElement("div");
+        divButtonNext.className = "swiper-button-next";
+        divContainer.appendChild(divWrapper);
+        divContainer.appendChild(divPagination);
+        divContainer.appendChild(divButtonPrev);
+        divContainer.appendChild(divButtonNext);
+        view.elements.sampleArea.appendChild(divContainer);
+        let swiper = new Swiper(".swiper-container",{
+          slidesPerView: 1,
+          spaceBetween: 30,
+          loop: true,
+          observer: true,
+          pagination: {
+            el:'.swiper-pagination',
+            ckickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      },//end of setSample
+      insertSample: function(category, code){
+        return ()=>{
+          let req = new XMLHttpRequest();
+          let url = "sample/" + category + "/" +code;
+          req.open("GET",url,true);
+          req.onload = (e)=>{
+            editor.setValue(req.response);
+          };
+          req.setRequestHeader("content-type","application/text");
+          req.responseType ="text";
+          req.send();
+        }
+      },//end of insertSample
       add: function(){
         view.elements.sample.addEventListener('click',(e)=>{
           e.stopPropagation();
