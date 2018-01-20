@@ -1,0 +1,42 @@
+[
+  {
+    "category": "plotly",
+    "list": [
+      {
+        "title":"Hellow World Example",
+        "code":"HelloWorldExample.js",
+        "explation": "simple test code"
+      },
+      {
+        "title":"simple bar graph",
+        "code":"bar.js",
+        "explation": "simple bar graph"
+      },
+      {
+        "title":"simple pie chart",
+        "code":"pie.js",
+        "explation": "simple pie chart"
+      },
+      {
+        "title":"simple scatter plot",
+        "code":"scatter.js",
+        "explation": "simple scatter plot"
+      }
+    ]
+  },
+  {
+    "category": "D3",
+    "list": [
+      {
+        "title":"HelloWorld Example",
+        "code":"HelloWorldExample.js",
+        "explation": "simple test code"
+      },
+      {
+        "title":"world map",
+        "code":"map.js",
+        "explation": "world map"
+      }
+    ]
+  }
+]

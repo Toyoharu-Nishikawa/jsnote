@@ -108,7 +108,7 @@ main > article {
   opacity: 0.9; 
   height:80%;
   margin: 0px;
-  padding: 0px;
+  padding: 20px;
   top: 50px;
   left: 50px;
   width: 80%;
@@ -117,6 +117,34 @@ main > article {
   border: 1px solid #1495b5;
   border-radius: 20px 20px 20px 20px;
 }
+
+.swiper-container {
+  width: 100%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.swiper-slide > h2 {
+  color: #3e5358;
+  margin: 0;
+  padding: 0px 10px ;
+}
+.swiper-slide >article {
+  display: flex;
+} 
+.swiper-slide >article > ul {
+  list-style: none;
+}
+.swiper-slide >article >ul > li {
+  color: #3e5358;
+}
+.swiper-slide >article  >ul > li:hover {
+  background: #F0FFF0;
+  outline: 1px solid #7FFFD4;
+  cursor: pointer;
+}
+
 
 .display {
   display: block;
