@@ -315,6 +315,14 @@ editor.commands.addCommand({
   },
 });
 
+editor.commands.addCommand({
+  name:'clearAll',
+  bindKey: {win:'Shift-Delete',mac:'Shift-Delete'},
+  exec: function(){
+    editor.setValue("");
+  },
+});
+
 view.initialize();
 control.set();
 }
