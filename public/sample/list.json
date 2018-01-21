@@ -47,19 +47,37 @@
     ]
   },
   {
-    "category": "D3",
-    "directory": "D3",
+    "category": "SVG",
+    "directory": "svg",
     "list": [
       {
         "title":"HelloWorld Example",
         "code":"HelloWorldExample.js",
         "explation": "simple test code"
-      },
+      }
+    ]
+  },
+  {
+    "category": "D3",
+    "directory": "d3",
+    "list": [
       {
-        "title":"world map",
-        "code":"map.js",
-        "explation": "world map"
+        "title":"HelloWorld Example",
+        "code":"HelloWorldExample.js",
+        "explation": "simple test code"
+      }
+    ]
+  },
+  {
+    "category": "Three",
+    "directory": "three",
+    "list": [
+      {
+        "title":"HelloWorld Example",
+        "code":"HelloWorldExample.js",
+        "explation": "simple test code"
       }
     ]
   }
+
 ]
