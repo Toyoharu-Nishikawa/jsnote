@@ -1,3 +1,7 @@
+// plotly is a beatiful data visualization tool
+//you can draw bar graphs, pie charts, scatter plots and so on. 
+//https://plot.ly/feed/
+
 Plotly.newPlot( "draw", 
   [
     {

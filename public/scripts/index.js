@@ -290,7 +290,7 @@ let control = {
             let sample = document.createTextNode(value2.title);
             let li = document.createElement("li");
             li.appendChild(sample);
-            li.onclick = this.insertSample(value.category, value2.code);
+            li.onclick = this.insertSample(value.directory, value2.code);
             ul[index2%3].appendChild(li);
           });
           h2.appendChild(title);
@@ -327,11 +327,11 @@ let control = {
           },
         });
       },//end of setSample
-      insertSample: function(category, code){
+      insertSample: function(directory, code){
         return (e)=>{
           e.stopPropagation();
           let req = new XMLHttpRequest();
-          let url = "sample/" + category + "/" +code;
+          let url = "sample/" + directory + "/" +code;
           req.open("GET",url,true);
           req.onload = (e)=>{
             editor.setValue(req.response);

@@ -1,3 +1,7 @@
+//bar graph is easy to understand 
+//it is often the best choice to compare quantity 
+//but, be careful of y-axis renge 
+
 var data = [
   {
     x: ['giraffes', 'orangutans', 'monkeys'],

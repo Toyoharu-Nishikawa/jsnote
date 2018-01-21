@@ -1,3 +1,7 @@
+//when do you use pie chart?
+//maybe...,  when I show how to spend the time of the day 
+// , breakdown of buget or anything else.
+
 var trace1 = {
   labels: ['Food and Tobacco', 'Household Operation', 
     'Medical and Health', 'Personal Care', 'Private Education'], 

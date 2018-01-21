@@ -1,3 +1,7 @@
+//I use scatter plots most often
+//scatter plots show us a variety of trends
+//we can analyze past and current situations and predict coming things
+
 var trace1 = {
   x: ['1.4629541543408053', '1.449384764554683', '1.443271124323532',
       '1.4357189805085815', '1.426728333109831', '1.4046113405089038',
