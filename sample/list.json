@@ -1,6 +1,28 @@
 [
   {
+    "category": "native javascript",
+    "directory": "native_javascript",
+    "list": [
+      {
+        "title":"Hellow World Example",
+        "code":"HelloWorldExample.js",
+        "explation": "simple test code"
+      },
+      {
+        "title":"range",
+        "code":"range.js",
+        "explation": "range function as python"
+      },
+      {
+        "title":"parse csv",
+        "code":"parse_csv.js",
+        "explation": "parse csv without d3"
+      }
+    ]
+  },
+  {
     "category": "plotly",
+    "directory": "plotly",
     "list": [
       {
         "title":"Hellow World Example",
@@ -26,6 +48,7 @@
   },
   {
     "category": "D3",
+    "directory": "D3",
     "list": [
       {
         "title":"HelloWorld Example",
