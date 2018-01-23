@@ -241,6 +241,7 @@ let control = {
     sample: {
       getFlag: false,
       sampleList: null,
+      clickCount: 0,
       execute: function(){
         if(view.sampleFlag){this.hide();}
         else {
@@ -339,6 +340,14 @@ let control = {
           req.setRequestHeader("content-type","application/text");
           req.responseType ="text";
           req.send();
+          if(!this.clickCount){
+            ++this.clickCount;
+            setTimeout(()=>this.clickCount=0, 350);
+          }
+          else {
+            view.elements.sample.click();
+            this.clickCount =0;
+          }
         }
       },//end of insertSample
       add: function(){
@@ -368,6 +377,7 @@ let control = {
       execute: function(){
         let keyElem = view.elements.keyBinding;
         let key = keyElem.options[keyElem.selectedIndex].value;
+        window.localStorage.setItem("deyBinding",keyElem.selectedIndex);
         key = key !=="" ? "ace/keyboard/"+key : null;
         editor.setKeyboardHandler(key);
       },//end of execute
@@ -382,6 +392,7 @@ let control = {
       execute: function(){
         let fsElem = view.elements.fontSize;
         let fs = fsElem.options[fsElem.selectedIndex].value;
+        window.localStorage.setItem("fontSize",fsElem.selectedIndex);
         editor.setOptions({
           fontSize: fs 
         });
