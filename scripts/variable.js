@@ -12,5 +12,22 @@ editor.setOptions({
   fontSize: "13pt"
 });
 editor.$blockScrolling = Infinity; 
-editor.setValue(window.localStorage.getItem("remember")|| "");
+(()=>{
+  let keyBindingElem = document.getElementById("keyBinding");
+  let fontSizeElem = document.getElementById("fontSize");
+  let keyOption = window.localStorage.getItem("deyBinding") || 0;
+  let fsOption = window.localStorage.getItem("fontSize")|| 3;
+  let key =keyBindingElem.options[keyOption].value;
+  let fs =fontSizeElem.options[fsOption].value;
+  let string = window.localStorage.getItem("remember")|| "";
 
+  keyBindingElem.options[keyOption].selected =true
+  fontSizeElem.options[fsOption].selected =true
+  
+  key = key !=="" ? "ace/keyboard/"+key : null;
+  editor.setKeyboardHandler(key);
+  editor.setOptions({
+    fontSize: fs 
+  });
+  editor.setValue(string);
+})();
