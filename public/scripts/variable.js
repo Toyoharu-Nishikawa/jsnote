@@ -19,7 +19,7 @@ editor.$blockScrolling = Infinity;
   let fsOption = window.localStorage.getItem("fontSize")|| 3;
   let key =keyBindingElem.options[keyOption].value;
   let fs =fontSizeElem.options[fsOption].value;
-  let string = window.localStorage.getItem("remember")|| "";
+  let string = window.localStorage.getItem("jsnoteRemember")|| "";
 
   keyBindingElem.options[keyOption].selected =true
   fontSizeElem.options[fsOption].selected =true
