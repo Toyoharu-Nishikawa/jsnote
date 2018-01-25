@@ -41,6 +41,7 @@ var importFiles = function(elem,data, callback) {
   }//end of change
   function stop(e){
     e.stopPropagation();
+    e.target.value = null;
     elem.removeEventListener('click',stop,false);
   }//end of stop 
   elem.addEventListener('change', change, false);

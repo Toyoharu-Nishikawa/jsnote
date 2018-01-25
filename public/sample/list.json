@@ -43,6 +43,11 @@
         "title":"simple scatter plot",
         "code":"simple_scatter.js",
         "explation": "simple scatter plot"
+      },
+      {
+        "title":"parse csv",
+        "code":"parse_csv.js",
+        "explation": "parse csv and plot"
       }
     ]
   },
