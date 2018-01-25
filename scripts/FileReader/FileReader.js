@@ -37,13 +37,11 @@ var importFiles = function(elem,data, callback) {
       function(reason){
         console.log(reason);
       });
-    console.log("change")
     elem.removeEventListener("change",change ,false);
   }//end of change
   function stop(e){
     e.stopPropagation();
     e.target.value = null;
-    console.log("stop")
     elem.removeEventListener('click',stop,false);
   }//end of stop 
   elem.addEventListener('change', change, false);
