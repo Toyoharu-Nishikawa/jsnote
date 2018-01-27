@@ -269,7 +269,7 @@ function Tps2A(SP){
   if(SP.P<=0.0){SP = null;return -1;}
   
   for(i=1;i<=46;i++){
-    T = T + an[i]*pow(SP.P,II[i])*Math.pow(sigma-2.0,JJ[i]);
+    T = T + an[i]*Math.pow(SP.P,II[i])*Math.pow(sigma-2.0,JJ[i]);
   }
   SP.T=T;
   
