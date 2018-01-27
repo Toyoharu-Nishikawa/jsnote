@@ -1,19 +1,11 @@
-jsnote
-========
-![Imgur](https://i.imgur.com/HRDIOeq.png)
-## Overview
-javascript is what a wonderful language!!  
-I believe we can change the world by javascript.  
-i'm lovin' it
+// 3-line-message
+//write here what you wanto to tell the world
+// javascript is what a wonderful language !! i'm lovin' it.
 
-## Dsescription
-jsnote will present you easy and fast coding place.    
-You can code javascript briefly and display the draw space freely.  
-jsnote is simple javascript editor running on web browsers.  
-
-
-## Demo
-Go to [jsnote](https://toyoharu-nishikawa.github.io/jsnote/public/index.html)
+`
+-----------------
+   READ ME
+-----------------
 
 ## Usage
 
@@ -58,7 +50,4 @@ Go to [jsnote](https://toyoharu-nishikawa.github.io/jsnote/public/index.html)
 - "Shift + Delete"  
     clears all words in the editor.
 
-
-## Lisence
-  MIT
-
+`
