@@ -1,6 +1,6 @@
 jsnote
 ========
-
+![Imgur](https://i.imgur.com/HRDIOeq.png)
 ## Overview
 javascript is what a wonderful language!!  
 I believe we can change the world by javascript.  
@@ -60,3 +60,4 @@ Go to [jsnote](https://toyoharu-nishikawa.github.io/jsnote/public/index.html)
 
 
 ## Lisence
+  MIT
