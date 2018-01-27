@@ -9,6 +9,6 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "jsIF97": "^2.0.0"
+    "jsIF97": "^2.0.2"
   }
 }
