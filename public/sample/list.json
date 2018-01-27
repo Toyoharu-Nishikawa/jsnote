@@ -4,6 +4,11 @@
     "directory": "native_javascript",
     "list": [
       {
+        "title":"READ ME",
+        "code":"README.js",
+        "explation": "usage of jsnote"
+      },
+      {
         "title":"Hellow World Example",
         "code":"HelloWorldExample.js",
         "explation": "simple test code"
