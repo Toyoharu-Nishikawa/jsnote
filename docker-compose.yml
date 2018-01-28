@@ -3,7 +3,7 @@ services:
   nginx:
     image: nginx
     restart: always 
-    port:
+    ports:
       - "2555:80" 
     volumes:
       - ./public:/usr/share/nginx/html
