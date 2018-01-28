@@ -156,7 +156,7 @@ export function RegPS(SP){
     SP1.P = SP.P;
     if(TsatP(SP1)==-1){SP = null;return -1;}
     if(Vsatg_3(SP1)==-1){SP = null;return -1;}
-    if(region_3(SP1)==1){SP = null;return -1;}
+    if(region_3(SP1)==-1){SP = null;return -1;}
     Stest=SP1.s;
     if(S>=Stest){
       SP.M=32;
