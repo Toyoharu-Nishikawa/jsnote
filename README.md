@@ -58,6 +58,56 @@ Go to [jsnote](https://toyoharu-nishikawa.github.io/jsnote/public/index.html)
 - "Shift + Delete"  
     clears all words in the editor.
 
+## SAMPLE CODES
+put your sample codes under the sample directory and add a property to list.json
+
+```
+public
+|-- index.html
+|-- scripts
+|-- styles
+|-- sample
+  |--list.json
+  |--native_javascript
+  |  |-- README.js
+  |  |-- HelloWorldExample.js
+  |--plotly
+  |  |-- HelloWorldExample.js
+  |--svig
+  |  |-- HelloWorldExample.js
+  .
+  .
+  .
+```
+
+## INSTALL
+##### Method 1 : pull from Docker Hub
+pull image from Docker Hub and built with docker-compose
+
+step1: make docker-.compose.yaml  
+
+```docker-compose.yaml
+version: '2'
+services:
+  jsnote:
+    image: toyohal24/jsnote
+    restart: always
+    ports:
+      - "2555:80"
+    #volumes // uncomment two lines from here if you have your original sample
+    #  - ./sample:/var/share/nginx/html/sample
+```
+step2: build with docker-compose
+
+```shell
+docker-compose up -d
+```
+#### Method 2 : git clone from GitHub
+```
+git clone https://github.com/Toyoharu-Nishikawa/jsnote.git
+cd jsnote
+docker-compose up -d
+```
 
 ## Lisence
   MIT
