@@ -49,7 +49,7 @@
 
 import {region_3, PVT_3,dPdV_3} from './IF97_3.mjs'
 import {PsatT,TsatP} from './IF97_Sat.mjs'
-import {Pb23T} from './IF97_B23.mjs'
+import {Pb23T,Tb23P} from './IF97_B23.mjs'
 
 "use strict"
 
