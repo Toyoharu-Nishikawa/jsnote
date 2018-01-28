@@ -201,7 +201,7 @@ export function RegPS(SP){
   }
   SP1.P = SP.P;
   if(Tb23P(SP1)==-1){SP = null;return -1;}
-  if(region_2(SP1)==1){SP = null;return -1;}
+  if(region_2(SP1)==-1){SP = null;return -1;}
   Stest=SP1.s;
   if(S>=Stest){
       SP.M=2;
