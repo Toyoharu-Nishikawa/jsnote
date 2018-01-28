@@ -92,7 +92,7 @@ export function propPS(SP){
     SP.T=SPl.T;
   }
   else{
-//    printf("Out of IF97 applicable range.");
+    //console.log("Out of IF97 applicable range.");
     return -1;
   }
   
