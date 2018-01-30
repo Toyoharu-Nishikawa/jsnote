@@ -36,10 +36,10 @@ export function  propHS(SP){
 
   //check validity
   if(SP.nx==0){
-    console.log("Wet region");
+    //console.log("Wet region");
   }
   else{
-    console.log("Dry region");    
+    //console.log("Dry region");    
   }
   return 1;
 }
