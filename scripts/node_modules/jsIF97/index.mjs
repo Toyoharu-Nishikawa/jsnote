@@ -628,10 +628,10 @@ export function ph2k(P, h) {
     kappa = SP.kappa;
   }
   else {
-    SP1.P = p + del;
+    SP1.P = P + del;
     SP1.s = SP.s;
     if (propPS(SP1) == -1) { SP = null; return -1; }
-      kappa = -Math.log(SP1.P / p) / Math.log(SP1.v / SP.v);
+      kappa = -Math.log(SP1.P / P) / Math.log(SP1.v / SP.v);
   }
   return kappa;
 }
