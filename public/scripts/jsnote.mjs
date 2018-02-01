@@ -8,11 +8,6 @@ https://stackoverflow.com/questions/29620161/how-to-set-indent-size-in-ace-edito
 window.importTexts = [];
 window.exportText = "";
 
-const saveStringAsFile = function (string,filename){
-  var blob = new Blob([string], {type: 'text/plain; charset=utf-8'});
-  saveAs(blob, filename);
-}
-
 const editor = ace.edit('editor');
 editor.setTheme("ace/theme/monokai");
 editor.getSession().setOptions({
@@ -20,31 +15,68 @@ editor.getSession().setOptions({
   tabSize: 2,
   useSoftTabs: true
 }); 
-editor.setKeyboardHandler("ace/keyboard/vim");
-editor.setOptions({
-  fontSize: "13pt"
-});
+//editor.setKeyboardHandler("ace/keyboard/vim");
+//editor.setOptions({
+//  fontSize: "13pt"
+//});
 editor.$blockScrolling = Infinity; 
-(()=>{
-  let keyBindingElem = document.getElementById("keyBinding");
-  let fontSizeElem = document.getElementById("fontSize");
-  let keyOption = window.localStorage.getItem("deyBinding") || 0;
-  let fsOption = window.localStorage.getItem("fontSize")|| 3;
-  let key =keyBindingElem.options[keyOption].value;
-  let fs =fontSizeElem.options[fsOption].value;
-  let string = window.localStorage.getItem("jsnoteRemember")|| "";
+
+const getCode = ()=>{
+  if(!location.hash){
+    const string = window.localStorage.getItem("jsnoteRemember")|| "";
+    editor.setValue(string);
+  }
+  else{
+    const req = new XMLHttpRequest();
+    req.open("GET",location.hash.slice(1),true);
+    req.onload = (e)=>{
+      switch(req.status){
+        case 200:
+          editor.setValue(req.response);
+          break;
+        default:
+          console.log(req.status)
+          const string = window.localStorage.getItem("jsnoteRemember")|| "";
+          editor.setValue(string);
+          break;
+      }
+    };
+    req.onerror = e=>{
+      const string = window.localStorage.getItem("jsnoteRemember")|| "";
+      editor.setValue(string);
+    };
+    req.setRequestHeader("content-type","application/text");
+    req.responseType ="text";
+    req.send();
+  }
+};
+
+const editorInitialize = ()=>{
+  const keyBindingElem = document.getElementById("keyBinding");
+  const fontSizeElem = document.getElementById("fontSize");
+  const keyOption = window.localStorage.getItem("deyBinding") || 0;
+  const fsOption = window.localStorage.getItem("fontSize")|| 3;
+  const key =keyBindingElem.options[keyOption].value;
+  const fs =fontSizeElem.options[fsOption].value;
 
   keyBindingElem.options[keyOption].selected =true
   fontSizeElem.options[fsOption].selected =true
   
-  key = key !=="" ? "ace/keyboard/"+key : null;
-  editor.setKeyboardHandler(key);
+  const editorKey = key !=="" ? "ace/keyboard/"+key : null;
+  editor.setKeyboardHandler(editorKey);
   editor.setOptions({
     fontSize: fs 
   });
-  editor.setValue(string);
-})();
+  getCode();
+};
 
+editorInitialize();
+window.onpopstate = getCode;
+
+const saveStringAsFile = function (string,filename){
+  var blob = new Blob([string], {type: 'text/plain; charset=utf-8'});
+  saveAs(blob, filename);
+}
 export const view = {
   drawBoxFlag: false,
   drawBoxHeight: null,
@@ -198,7 +230,6 @@ export const view = {
     return this;
   },
   initialize: function(){
-//    this.fitHeight();
     this.changeSizeOfBox(this.elements.drawArea);
     this.elements.drawCheckBox.addEventListener('change',(e)=>{
       let flag = e.target.checked;
@@ -206,13 +237,6 @@ export const view = {
       if(flag){ this.showDrawBox(); }
       else{ this.hideDrawBox(); }
     });
-   /*
-    window.addEventListener('resize', (e)=> {
-      view.resizeTimer = setTimeout(()=>{
-        this.fitHeight();
-      }, 10);
-    },false);
-   */
     return this;
   },
 };
@@ -369,6 +393,7 @@ export const control = {
           let url = "sample/" + directory + "/" +code;
           req.open("GET",url,true);
           req.onload = (e)=>{
+            location.hash = url;
             editor.setValue(req.response);
           };
           req.setRequestHeader("content-type","application/text");
@@ -396,6 +421,7 @@ export const control = {
         let code = editor.getValue();
         drawArea.innerHTML = "<div id='draw'></div>";
         window.localStorage.setItem("jsnoteRemember",code);
+        location.hash = "";
         new Function(code)();
         //eval(code);
       },//end of execute
