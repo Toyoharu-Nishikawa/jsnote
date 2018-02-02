@@ -340,16 +340,16 @@ export const control = {
           let divSlide = document.createElement("div");
            divSlide.className = "swiper-slide";
           let h2 = document.createElement("h2");
-          let title = document.createTextNode(value.category);
+          let title = document.createTextNode(value.directory);
           let article = document.createElement("article")
           let ul = Array.from(Array(3), ()=>
             document.createElement("ul")
           );
           value.list.forEach((value2,index2,array2)=>{
-            let sample = document.createTextNode(value2.title);
+            let sample = document.createTextNode(value2);
             let li = document.createElement("li");
             li.appendChild(sample);
-            li.onclick = this.insertSample(value.directory, value2.code);
+            li.onclick = this.insertSample(value.directory, value2);
             ul[index2%3].appendChild(li);
           });
           h2.appendChild(title);
