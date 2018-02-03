@@ -52,7 +52,6 @@ const removeParamFromHash = (key) =>{
     return false;
   }
 };
-//const param = parseParam(location.hash.slice(1));
 
 const editor = ace.edit('editor');
 editor.setTheme("ace/theme/monokai");
@@ -96,7 +95,7 @@ const getCode = ()=>{
   }
 };
 
-const keyBind = ()=> {
+const keyBinding = ()=> {
   const param = parseParam(location.hash.slice(1));
   const keyBindingElem = document.getElementById("keyBinding");
   const keyOption = (param && param.has("keyBinding")) ? 
@@ -121,7 +120,7 @@ const fontSize = () => {
   });
 }
 
-const checkBox = ()=>{
+const drawCheckBox = ()=>{
   const param = parseParam(location.hash.slice(1));
   const flag = (param && param.has("drawCheckBox")) ?
     param.get("drawCheckBox") :
@@ -131,15 +130,23 @@ const checkBox = ()=>{
   document.getElementById("drawCheckBox").checked = drawBoxFlag;
 
   const elem = document.getElementById("drawArea");
-  if(drawBoxFlag){ elem.className =  "display"; }
-  else{ elem.className =  "not_display";}
+  if(drawBoxFlag){
+    elem.className =  "display"; 
+    window.dispatchEvent(new Event('resize'));
+    window.localStorage.setItem("drawCheckBox",1)
+  }
+  else{ 
+    elem.className =  "not_display";
+    window.dispatchEvent(new Event('resize'));
+    window.localStorage.setItem("drawCheckBox",0)
+  }
 }
 
 const jsnoteInitialize = ()=>{
-  keyBind();
+  keyBinding();
   fontSize();
   getCode();
-  checkBox();
+  drawCheckBox();
 };
 
 jsnoteInitialize();
@@ -460,15 +467,20 @@ export const control = {
           e.stopPropagation();
           let req = new XMLHttpRequest();
           let url = "sample/" + directory + "/" +code;
+          window.onpopstate = getCode;
+          addParamToHash("sample",url)
+          /*
           req.open("GET",url,true);
           req.onload = (e)=>{
             //console.log("get sample")
+            window.onpopstate = getCode;
             addParamToHash("sample",url)
             //editor.setValue(req.response);
           };
           req.setRequestHeader("content-type","application/text");
           req.responseType ="text";
           req.send();
+         */ 
           if(!this.clickCount){
             ++this.clickCount;
             setTimeout(()=>this.clickCount=0, 350);
@@ -491,6 +503,7 @@ export const control = {
         let code = editor.getValue();
         drawArea.innerHTML = "<div id='draw'></div>";
         window.localStorage.setItem("jsnoteRemember",code);
+        window.onpopstate = getCode;
         removeParamFromHash("sample");
         new Function(code)();
         //eval(code);
@@ -507,9 +520,12 @@ export const control = {
         let keyElem = view.elements.keyBinding;
         let key = keyElem.options[keyElem.selectedIndex].value;
         window.localStorage.setItem("keyBinding",keyElem.selectedIndex);
+        window.onpopstate = keyBinding;
         addParamToHash("keyBinding",keyElem.selectedIndex);
+        /*
         key = key !=="" ? "ace/keyboard/"+key : null;
         editor.setKeyboardHandler(key);
+        */
       },//end of execute
       add: function(){
         view.elements.keyBinding.addEventListener("change",(e)=>{
@@ -523,10 +539,13 @@ export const control = {
         let fsElem = view.elements.fontSize;
         let fs = fsElem.options[fsElem.selectedIndex].value;
         window.localStorage.setItem("fontSize",fsElem.selectedIndex);
+        window.onpopstate =fontSize;
         addParamToHash("fontSize",fsElem.selectedIndex);
+        /*
         editor.setOptions({
           fontSize: fs 
         });
+        */
       },//end of execute
       add: function(){
         view.elements.fontSize.addEventListener("change",(e)=>{
@@ -540,11 +559,13 @@ export const control = {
         const elem = view.elements.drawCheckBox
         const flag = elem.checked;
         if(flag){
-          this.showDrawBox(); 
+          //this.showDrawBox(); 
+          window.onpopstate =drawCheckBox;
           addParamToHash("drawCheckBox",1);
         }
         else{
-         this.hideDrawBox(); 
+         //this.hideDrawBox(); 
+          window.onpopstate =drawCheckBox;
           addParamToHash("drawCheckBox",0);
         }
       },//end of execute
