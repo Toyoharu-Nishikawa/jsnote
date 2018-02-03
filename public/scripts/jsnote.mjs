@@ -8,6 +8,52 @@ https://stackoverflow.com/questions/29620161/how-to-set-indent-size-in-ace-edito
 window.importTexts = [];
 window.exportText = "";
 
+const parseParam = (hash)=>{
+  if(hash){
+    const param = hash.split("&")
+      .reduce((pre,current)=>{
+        const item = current.split("=");
+        const key = item[0]
+        const value = item[1]
+        pre.set(item[0],isNaN(value)? value: parseFloat(value)); 
+        return pre;
+    },new Map());
+    return param
+  }
+  else {
+    return new Map();
+  }
+};
+
+const convertMapToHashString = (map)=>{
+  let paramArray = [];
+  for(let [k,v] of map){
+    paramArray.push(k+"="+v);
+  }
+  const paramString = paramArray.join("&");
+  //console.log(paramString);
+  return paramString 
+}
+
+const addParamToHash = (key,value)=>{
+  const param = parseParam(location.hash.slice(1));
+  param.set(key,value); 
+  location.hash = convertMapToHashString(param) 
+};
+
+const removeParamFromHash = (key) =>{
+  const param = parseParam(location.hash.slice(1));
+  if(param.has(key)){
+    param.delete(key)
+    location.hash = convertMapToHashString(param) 
+    return true;
+  }
+  else {
+    return false;
+  }
+};
+//const param = parseParam(location.hash.slice(1));
+
 const editor = ace.edit('editor');
 editor.setTheme("ace/theme/monokai");
 editor.getSession().setOptions({
@@ -15,20 +61,18 @@ editor.getSession().setOptions({
   tabSize: 2,
   useSoftTabs: true
 }); 
-//editor.setKeyboardHandler("ace/keyboard/vim");
-//editor.setOptions({
-//  fontSize: "13pt"
-//});
+
 editor.$blockScrolling = Infinity; 
 
 const getCode = ()=>{
-  if(!location.hash){
+  const param = parseParam(location.hash.slice(1));
+  if(!param.has("sample")){
     const string = window.localStorage.getItem("jsnoteRemember")|| "";
     editor.setValue(string);
   }
   else{
     const req = new XMLHttpRequest();
-    req.open("GET",location.hash.slice(1),true);
+    req.open("GET",param.get("sample"),true);
     req.onload = (e)=>{
       switch(req.status){
         case 200:
@@ -42,6 +86,7 @@ const getCode = ()=>{
       }
     };
     req.onerror = e=>{
+      console.log("http request error")
       const string = window.localStorage.getItem("jsnoteRemember")|| "";
       editor.setValue(string);
     };
@@ -51,34 +96,60 @@ const getCode = ()=>{
   }
 };
 
-const editorInitialize = ()=>{
+const keyBind = ()=> {
+  const param = parseParam(location.hash.slice(1));
   const keyBindingElem = document.getElementById("keyBinding");
-  const fontSizeElem = document.getElementById("fontSize");
-  const keyOption = window.localStorage.getItem("deyBinding") || 0;
-  const fsOption = window.localStorage.getItem("fontSize")|| 3;
+  const keyOption = (param && param.has("keyBinding")) ? 
+    param.get("keyBinding"):
+    window.localStorage.getItem("keyBinding") || 0;
   const key =keyBindingElem.options[keyOption].value;
-  const fs =fontSizeElem.options[fsOption].value;
-
   keyBindingElem.options[keyOption].selected =true
-  fontSizeElem.options[fsOption].selected =true
-  
   const editorKey = key !=="" ? "ace/keyboard/"+key : null;
   editor.setKeyboardHandler(editorKey);
+}
+
+const fontSize = () => {
+  const param = parseParam(location.hash.slice(1));
+  const fontSizeElem = document.getElementById("fontSize");
+  const fsOption =(param && param.has("fontSize")) ?
+    param.get("fontSize") :
+    window.localStorage.getItem("fontSize")|| 3;
+  const fs =fontSizeElem.options[fsOption].value;
+  fontSizeElem.options[fsOption].selected =true
   editor.setOptions({
     fontSize: fs 
   });
+}
+
+const checkBox = ()=>{
+  const param = parseParam(location.hash.slice(1));
+  const flag = (param && param.has("drawCheckBox")) ?
+    param.get("drawCheckBox") :
+    (window.localStorage.getItem("drawCheckBox") || 0);
+  
+  const drawBoxFlag = parseFloat(flag)? true: false;
+  document.getElementById("drawCheckBox").checked = drawBoxFlag;
+
+  const elem = document.getElementById("drawArea");
+  if(drawBoxFlag){ elem.className =  "display"; }
+  else{ elem.className =  "not_display";}
+}
+
+const jsnoteInitialize = ()=>{
+  keyBind();
+  fontSize();
   getCode();
+  checkBox();
 };
 
-editorInitialize();
-window.onpopstate = getCode;
+jsnoteInitialize();
+window.onpopstate = jsnoteInitialize;
 
 const saveStringAsFile = function (string,filename){
   var blob = new Blob([string], {type: 'text/plain; charset=utf-8'});
   saveAs(blob, filename);
 }
 export const view = {
-  drawBoxFlag: false,
   drawBoxHeight: null,
   drawBoxWidth: 500,
   sampleFlag: false,
@@ -218,26 +289,10 @@ export const view = {
     online.setElement(elem);
     online.add();
   },
-  showDrawBox: function(){
-    this.elements.drawArea.className =  "display";
-    window.dispatchEvent(new Event('resize'));
-    return this;
-  },
-  hideDrawBox: function(){
-    this.elements.drawArea.className =  "not_display";
-    //this.fitHeight();
-    window.dispatchEvent(new Event('resize'));
-    return this;
-  },
   initialize: function(){
     this.changeSizeOfBox(this.elements.drawArea);
-    this.elements.drawCheckBox.addEventListener('change',(e)=>{
-      let flag = e.target.checked;
-      this.drawBoxFlag=flag;
-      if(flag){ this.showDrawBox(); }
-      else{ this.hideDrawBox(); }
-    });
-    return this;
+    this.elements.sampleArea.onclick = e=>{e.stopPropagation()};
+   return this;
   },
 };
 
@@ -301,9 +356,13 @@ export const control = {
       sampleList: null,
       clickCount: 0,
       execute: function(){
-        if(view.sampleFlag){this.hide();}
+        if(view.sampleFlag){
+          this.hide();
+          this.removeEvent();
+        }
         else {
           this.show();
+          this.addEvent();
           if(!this.getFlag){
             this.getSample();
             this.getFlag= true;
@@ -319,6 +378,16 @@ export const control = {
         view.elements.sample.className = "";
         view.sampleFlag = false;
         view.elements.sampleArea.className = "not_display";
+      },
+      mainScreenClick: function(e){
+        e.stopPropagation();
+        view.elements.sample.click();
+      },
+      addEvent: function(){
+        view.elements.main.addEventListener("click",this.mainScreenClick,false);
+      },
+      removeEvent: function(){
+        view.elements.main.removeEventListener("click",this.mainScreenClick,false);
       },
       getSample: function(){
         let req = new XMLHttpRequest();
@@ -393,8 +462,9 @@ export const control = {
           let url = "sample/" + directory + "/" +code;
           req.open("GET",url,true);
           req.onload = (e)=>{
-            location.hash = url;
-            editor.setValue(req.response);
+            //console.log("get sample")
+            addParamToHash("sample",url)
+            //editor.setValue(req.response);
           };
           req.setRequestHeader("content-type","application/text");
           req.responseType ="text";
@@ -421,7 +491,7 @@ export const control = {
         let code = editor.getValue();
         drawArea.innerHTML = "<div id='draw'></div>";
         window.localStorage.setItem("jsnoteRemember",code);
-        location.hash = "";
+        removeParamFromHash("sample");
         new Function(code)();
         //eval(code);
       },//end of execute
@@ -436,7 +506,8 @@ export const control = {
       execute: function(){
         let keyElem = view.elements.keyBinding;
         let key = keyElem.options[keyElem.selectedIndex].value;
-        window.localStorage.setItem("deyBinding",keyElem.selectedIndex);
+        window.localStorage.setItem("keyBinding",keyElem.selectedIndex);
+        addParamToHash("keyBinding",keyElem.selectedIndex);
         key = key !=="" ? "ace/keyboard/"+key : null;
         editor.setKeyboardHandler(key);
       },//end of execute
@@ -452,6 +523,7 @@ export const control = {
         let fsElem = view.elements.fontSize;
         let fs = fsElem.options[fsElem.selectedIndex].value;
         window.localStorage.setItem("fontSize",fsElem.selectedIndex);
+        addParamToHash("fontSize",fsElem.selectedIndex);
         editor.setOptions({
           fontSize: fs 
         });
@@ -463,6 +535,39 @@ export const control = {
         },false)
       },//end of add
     },//end of fontSize
+    drawCheckBox: {
+      execute: function(){
+        const elem = view.elements.drawCheckBox
+        const flag = elem.checked;
+        if(flag){
+          this.showDrawBox(); 
+          addParamToHash("drawCheckBox",1);
+        }
+        else{
+         this.hideDrawBox(); 
+          addParamToHash("drawCheckBox",0);
+        }
+      },//end of execute
+      showDrawBox: function(){
+        view.elements.drawArea.className =  "display";
+        window.dispatchEvent(new Event('resize'));
+        window.localStorage.setItem("drawCheckBox",1)
+        return this;
+      },
+      hideDrawBox: function(){
+        view.elements.drawArea.className =  "not_display";
+        //this.fitHeight();
+        window.dispatchEvent(new Event('resize'));
+        window.localStorage.setItem("drawCheckBox",0)
+        return this;
+      },
+      add: function(){
+        view.elements.drawCheckBox.addEventListener('change',(e)=>{
+          e.stopPropagation();
+          this.execute();
+        },false)
+      },//end of add
+    }//end of checkDrawBox
   },//end of func
   set: function(){
     for(let any in this.func){
