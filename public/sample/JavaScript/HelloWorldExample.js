@@ -3,7 +3,7 @@
 //have a nice day 
 
 
-var text = document.createTextNode("welcome to jsnote");
+const text = document.createTextNode("welcome to jsnote");
 document.getElementById("draw").appendChild(text);
 console.log("welcome to jsnote");
 
