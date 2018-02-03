@@ -1,98 +1,40 @@
 [
   {
-    "category": "native javascript",
-    "directory": "native_javascript",
+    "directory": "JavaScript",
     "list": [
-      {
-        "title":"READ ME",
-        "code":"README.js",
-        "explation": "usage of jsnote"
-      },
-      {
-        "title":"Hellow World Example",
-        "code":"HelloWorldExample.js",
-        "explation": "simple test code"
-      },
-      {
-        "title":"range",
-        "code":"range.js",
-        "explation": "range function as python"
-      },
-      {
-        "title":"parse csv",
-        "code":"parse_csv.js",
-        "explation": "parse csv without d3"
-      },
-      {
-        "title":"indent JSON",
-        "code":"indent_json.js",
-        "explation": "indent json string"
-      }
+      "READ_ME.js",
+      "HelloWorldExample.js",
+      "range.js",
+      "parse_csv.js",
+      "indent_json.js"
     ]
   },
   {
-    "category": "plotly",
     "directory": "plotly",
     "list": [
-      {
-        "title":"Hellow World Example",
-        "code":"HelloWorldExample.js",
-        "explation": "simple test code"
-      },
-      {
-        "title":"simple bar graph",
-        "code":"simple_bar.js",
-        "explation": "simple bar graph"
-      },
-      {
-        "title":"simple pie chart",
-        "code":"simple_pie.js",
-        "explation": "simple pie chart"
-      },
-      {
-        "title":"simple scatter plot",
-        "code":"simple_scatter.js",
-        "explation": "simple scatter plot"
-      },
-      {
-        "title":"parse csv",
-        "code":"parse_csv.js",
-        "explation": "parse csv and plot"
-      }
+      "HelloWorldExample.js",
+      "simple_bar.js",
+      "simple_pie.js",
+      "simple_scatter.js",
+      "parse_csv.js"
     ]
   },
   {
-    "category": "SVG",
-    "directory": "svg",
+    "directory": "SVG",
     "list": [
-      {
-        "title":"HelloWorld Example",
-        "code":"HelloWorldExample.js",
-        "explation": "simple test code"
-      }
+      "HelloWorldExample.js"
     ]
   },
   {
-    "category": "D3",
-    "directory": "d3",
+    "directory": "D3",
     "list": [
-      {
-        "title":"HelloWorld Example",
-        "code":"HelloWorldExample.js",
-        "explation": "simple test code"
-      }
+      "HelloWorldExample.js"
     ]
   },
   {
-    "category": "Three",
-    "directory": "three",
+    "directory": "Three",
     "list": [
-      {
-        "title":"HelloWorld Example",
-        "code":"HelloWorldExample.js",
-        "explation": "simple test code"
-      }
+      "HelloWorldExample.js"
     ]
   }
-
 ]
