@@ -414,6 +414,7 @@ export const control = {
       },
       setSampleArea: function(json){
         let list = JSON.parse(json)
+        const sampleArea = view.elements.sampleArea;
         let divContainer = document.createElement("div");
         divContainer.className = "swiper-container";
         let divWrapper = document.createElement("div");
@@ -452,7 +453,8 @@ export const control = {
         divContainer.appendChild(divPagination);
         divContainer.appendChild(divButtonPrev);
         divContainer.appendChild(divButtonNext);
-        view.elements.sampleArea.appendChild(divContainer);
+        sampleArea.innerHTML ="";
+        sampleArea.appendChild(divContainer);
         let swiper = new Swiper(".swiper-container",{
           slidesPerView: 1,
           spaceBetween: 30,
@@ -610,17 +612,17 @@ export const control = {
       send: function(json){
         const messageElem = view.elements.registerMessage;
         const req = new XMLHttpRequest();
-        req.open("POST","jsnoteregister",true);
+        req.open("POST","node/jsnoteregister",true);
         req.onload = (e)=>{
           switch(req.status){
             case 200:
               const respose = req.response;
-              //console.log(respose)
-              messageElem.textContent = respose;
+              console.log(respose)
+              messageElem.textContent = respose.state;
               break;
             default:
               //console.log(`request status : ${req.status}. Check your API server is working.`)
-              messageElem.textContent = `request status: ${req.status}. Check your API server is  working. If API server is not found, you have to buil local API server with docker-compose. Register does not work without API server.`;
+              messageElem.textContent = `request status: ${req.status}. Check your API server is  working. If API server cannot be found, you have to build local API server with docker-compose. Register does not work without API server.`;
               break;
           }
         };
