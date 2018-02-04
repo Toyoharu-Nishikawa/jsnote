@@ -36,13 +36,5 @@
     "list": [
       "HelloWorldExample.js"
     ]
-  },
-  {
-    "directory": "test",
-    "list": [
-      "register_test.js",
-      "register_test2.js",
-      "register_test3.js"
-    ]
   }
 ]
