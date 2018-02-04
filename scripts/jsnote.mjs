@@ -160,6 +160,7 @@ export const view = {
   drawBoxHeight: null,
   drawBoxWidth: 500,
   sampleFlag: false,
+  registerFlag: false,
   elements:{
     body: document.body, 
     header: document.getElementsByTagName("header")[0], 
@@ -173,6 +174,7 @@ export const view = {
     importFile: document.getElementById("importFile"),
     export: document.getElementById("export"),
     sample: document.getElementById("sample"),
+    register: document.getElementById("register"),
     run: document.getElementById("run"),
     keyBinding: document.getElementById("keyBinding"),
     fontSize: document.getElementById("fontSize"),
@@ -181,6 +183,13 @@ export const view = {
     draw: document.getElementById("draw"),
     drawCheckBox: document.getElementById("drawCheckBox"),
     sampleArea: document.getElementById("sampleArea"),
+    registerArea: document.getElementById("registerArea"),
+    categoryInput: document.forms.register.category,
+    category: document.getElementById("category"),
+    filenameInput: document.forms.register.filename,
+    filename: document.getElementById("filename"),
+    registerExec: document.getElementById("registerExec"),
+    registerMessage: document.getElementById("registerMessage"),
   },
   fitHeight: function(){
     let bodyBorderWidth = (this.elements.body.style.borderWidth || 
@@ -299,6 +308,7 @@ export const view = {
   initialize: function(){
     this.changeSizeOfBox(this.elements.drawArea);
     this.elements.sampleArea.onclick = e=>{e.stopPropagation()};
+    this.elements.registerArea.onclick = e=>{e.stopPropagation()};
    return this;
   },
 };
@@ -359,7 +369,6 @@ export const control = {
       },//end of add
     },//end of clear
     sample: {
-      getFlag: false,
       sampleList: null,
       clickCount: 0,
       execute: function(){
@@ -370,10 +379,7 @@ export const control = {
         else {
           this.show();
           this.addEvent();
-          if(!this.getFlag){
-            this.getSample();
-            this.getFlag= true;
-          }
+          this.getSample();
         }
       },//end of execute
       show: function(){
@@ -495,9 +501,160 @@ export const control = {
         view.elements.sample.addEventListener('click',(e)=>{
           e.stopPropagation();
           this.execute();
-        });
+        },false);
       },//end of add 
     },//end of sample
+    register: {
+      sampleList: null,
+      execute: function(){
+        if(view.registerFlag){
+          this.hide();
+          this.removeEvent();
+        }
+        else {
+          this.show();
+          this.addEvent();
+          this.getSample();
+        }
+      },//end of execute
+      show: function(){
+        view.elements.register.className = "ongoing";
+        view.registerFlag = true;
+        view.elements.registerArea.className = "display";
+      },
+      hide: function(){
+        view.elements.register.className = "";
+        view.registerFlag = false;
+        view.elements.registerArea.className = "not_display";
+      },
+      mainScreenClick: function(e){
+        e.stopPropagation();
+        view.elements.register.click();
+      },
+      addEvent: function(){
+        view.elements.main.addEventListener("click",this.mainScreenClick,false);
+      },
+      removeEvent: function(){
+        view.elements.main.removeEventListener("click",this.mainScreenClick,false);
+      },
+      getSample: function(){
+        let req = new XMLHttpRequest();
+        req.open("GET","sample/list.json",true);
+        req.onload = (e)=>{
+          this.setRegisterArea(req.response);
+        };
+        req.setRequestHeader("content-type","application/text");
+        req.responseType ="text";
+        req.send();
+      },
+      setRegisterArea: function(json){
+        const list = JSON.parse(json)
+        const keys = list.map(k=>k.directory); 
+        const categoryInput = view.elements.categoryInput; 
+        const category = view.elements.category; 
+        const filenameInput = view.elements.filenameInput; 
+        const filename = view.elements.filename; 
+        const exec = view.elements.registerExec;
+        category.innerHTML=null; 
+        filename.innerHTML=null; 
+
+        let categoryFragment = document.createDocumentFragment();
+        const optionList = keys.reduce((pre,current)=>{
+          const option = document.createElement("option");
+          option.value = current;
+          pre.appendChild(option); 
+          return pre;
+        }, categoryFragment);
+        category.appendChild(optionList);
+
+        categoryInput.onchange= () => {
+          filename.innerHTML=null; 
+          const text = categoryInput.value
+          const num = keys.indexOf(text)
+          if(num>-1){
+            let filenameFragment = document.createDocumentFragment();
+            const optionList = list[num].list.reduce((pre,current)=>{
+              const option = document.createElement("option");
+              option.value = current;
+              pre.appendChild(option); 
+              return pre;
+            }, filenameFragment);
+            filename.appendChild(optionList);
+          }
+          this.checkText();
+        }; 
+        filenameInput.onchange = () =>{
+          this.checkText();
+        }
+        exec.onclick = () =>{
+          const messageElem = view.elements.registerMessage;
+          messageElem.textContent = null;
+          const category = categoryInput.value;
+          const filename = filenameInput.value;
+          if(this.checkText()){
+            const code = editor.getValue();
+            if(code){
+              const register = {
+                category: category,
+                filename: filename,
+                code: code, 
+              }
+              this.send(register);
+            }
+            else{
+              messageElem.textContent ="the contents of editor is empty.";
+            }
+          }
+        };
+      },
+      send: function(json){
+        const messageElem = view.elements.registerMessage;
+        const req = new XMLHttpRequest();
+        req.open("POST","jsnoteregister",true);
+        req.onload = (e)=>{
+          switch(req.status){
+            case 200:
+              const respose = req.response;
+              //console.log(respose)
+              messageElem.textContent = respose;
+              break;
+            default:
+              //console.log(`request status : ${req.status}. Check your API server is working.`)
+              messageElem.textContent = `request status: ${req.status}. Check your API server is  working. If API server is not found, you have to buil local API server with docker-compose. Register does not work without API server.`;
+              break;
+          }
+        };
+        req.onerror = e=>{
+          //console.log("http request error")
+          messageElem.textContent = "http request error";
+        };
+        req.setRequestHeader("content-type","application/json");
+        req.responseType ="json";
+         req.send(JSON.stringify(json));
+      },
+      checkText: function(){
+        const messageElem = view.elements.registerMessage;
+        messageElem.textContent = null;
+        const category = view.elements.categoryInput.value;
+        const filename = view.elements.filenameInput.value;
+        const regExp = new RegExp(/[a-zA-Z0-9._]+$/) 
+        const categoryFlag = regExp.test(category);
+        const filenameFlag = regExp.test(filename);
+        if(categoryFlag && filenameFlag){
+          return true;
+        }
+        else{
+          messageElem.textContent = "a-z A-Z 0-9 . and _ are only available for category and file name"
+          return false;
+        }
+      },
+      add: function(){
+        view.elements.register.addEventListener('click',(e)=>{
+          e.stopPropagation();
+          this.execute();
+        },false);
+      }
+    }, //end of register
     run: {
       execute: function(){
         let code = editor.getValue();

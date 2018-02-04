@@ -43,7 +43,7 @@
       </li>
       <li id="export">export</li>
       <li id="sample">sample</li>
-      <!--<li id="register">register</li>-->
+      <li id="register">register</li>
     </ul>
   </header>
   <main>
@@ -97,6 +97,41 @@
         <div id="draw"></div>
       </div>
       <div id="sampleArea" class="not_display"></div>
+      <div id="registerArea" class="not_display">
+        <form name="register">
+          <ul>
+            <li>
+              <label>category</label>
+              <input type="text" name="category" list="category"
+               style="ime-inactive;"
+               placeholder="input the category of your code"
+               autofocus
+               required>
+                <datalist id="category">
+                  <option value="JavaScript">
+                  <option value="Plotly">
+                </datalist>
+            </li>
+            <li>
+              <label>file name</label>
+              <input type="text" name="filename" list="filename"
+               style="ime-inactive;"
+               placeholder="input the file name of your code"
+               required>
+                <datalist id="filename">
+                  <option value="READ_ME.js">
+                  <option value="parse_csv.js">
+                </datalist>
+            </li>
+            <li>
+              <label id="registerExec">register</label>
+            </li>
+          </ul>
+        </form> 
+        <p id="registerMessage">
+        a-z A-Z 0-9 . and _ are only available for category and file name
+        </p>
+      </div>
     </article>
   </main>
   <footer>
