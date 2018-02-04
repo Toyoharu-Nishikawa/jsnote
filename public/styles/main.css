@@ -147,6 +147,59 @@ main > article {
 }
 
 
+#registerArea {
+  width: 300px;
+  border-radius: 6px 6px 6px 6px;
+  position: absolute;
+  opacity: 0.9; 
+  height:80%;
+  margin: 0px;
+  padding: 20px;
+  top: 50px;
+  left: 30%;
+  /*width: 30%;*/
+  z-index: 2;
+  background: #FFFFFF;
+  border: 1px solid #1495b5;
+  border-radius: 20px 20px 20px 20px;
+}
+
+form[name="register"] > ul {
+  list-style: none;
+  display: block;
+  padding :0;
+  margin : 0;
+}
+form[name="register"] > ul > li {
+  font-size: 13pt;
+  display: flex;
+  flex-flow: column nowrap;
+  margin : 10px 0px;
+}
+
+form[name="register"] > ul >li > label {
+  color: #3e5358;
+}
+
+form[name="register"] > ul > li >input {
+  font-size: 13pt;
+}
+#registerExec {
+  color: #3e5358;
+  border-radius: 1px;
+  border: 1px solid #1495b5;
+  border-radius: 6px 6px 6px 6px;
+  width: 80px;
+  margin: 10px 0px 10px 0px;
+  padding: 1px 10px 1px 10px;
+}
+#registerExec:hover {
+  background: #1495b5;
+  color: #F5FFFA;
+  transition: 1.2s;
+  cursor: pointer;
+}
+
 .display {
   display: block;
 }
