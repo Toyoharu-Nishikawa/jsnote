@@ -34,7 +34,7 @@ export function ZPH_5(SP){
     SP.T = SP.T + dlt/SP.cp;
   }
   if(Flag==0){
-    console.Math.log("ZPH_5 not converged");
+    console.log("ZPH_5 not converged");
     return -1;
   }  
   return 1;
@@ -82,7 +82,7 @@ export function ZPS_5(SP){
     SP.T = SP.T + dlt/dsdt;
    }
   if(Flag==0){
-    console.Math.log("ZPS_5 not converged");
+    console.log("ZPS_5 not converged");
     return -1;
   }
   SP.g  =Gibbs.G0*R*SP.T;

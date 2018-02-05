@@ -108,7 +108,7 @@ function ZsatS(SP){
     s1=s2;
   }
   if(Flag==0){
-    console.Math.log("ZsatS not converged");
+    console.log("ZsatS not converged");
     return -1;
   }
   SP.T=t2;
@@ -334,7 +334,7 @@ export function ZHS_2(SP){
       t   =t-delt;
     }
     if(Flag==0){
-      console.Math.log("ZHS_2 not converged, dry region");
+      console.log("ZHS_2 not converged, dry region");
       return -1;
     }
   }

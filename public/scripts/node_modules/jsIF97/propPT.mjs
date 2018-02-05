@@ -35,7 +35,7 @@ export function propPT(SP){
     if(region_5(SP)==-1){SP = null;return -1;}
   }
   else{
-    printf("Out of IF97 applicable range.");
+    console.log("Out of IF97 applicable range.");
     return -1;
   }
   
