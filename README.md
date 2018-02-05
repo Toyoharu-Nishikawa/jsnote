@@ -46,6 +46,11 @@ Go to [jsnote](https://toyoharu-nishikawa.github.io/jsnote/public/index.html)
 - "sample"  
     suggests you a lot of sample codes
 
+- "register"  
+    pushes your sample code to "sample".  
+    Enter categoroy and filename before pushing the button of register.
+    This buttion is available only with running of AP server.
+
 #### SHORTCUT KEY 
 
 - "Shift + Enter"  
@@ -59,7 +64,8 @@ Go to [jsnote](https://toyoharu-nishikawa.github.io/jsnote/public/index.html)
     clears all words in the editor.
 
 ## SAMPLE CODES
-put your sample codes under the sample directory and add a property to list.json
+put your sample codes under the sample directory and add a property to list.json  
+you can register your smaple code  by clicking the button of register 
 
 ```
 public
@@ -81,7 +87,7 @@ public
 ```
 
 ## INSTALL
-##### Method 1 : pull from Docker Hub
+##### Method 1 : pull from Docker Hub (WEB server only)
 pull image from Docker Hub and built with docker-compose
 
 step1: make docker-.compose.yaml  
@@ -102,9 +108,18 @@ step2: build with docker-compose
 ```shell
 docker-compose up -d
 ```
-#### Method 2 : git clone from GitHub
+#### Method 2 : git clone from GitHub (WEB server & AP server)
 ```
 git clone https://github.com/Toyoharu-Nishikawa/jsnote.git
+cd jsnote
+docker-compose up -d
+```
+
+#### Method 3 : run behind a reverse proxy or load balancer (WEB server & AP server)
+The initial setting of 'networks' is neco_link.  
+Change setting of 'networks' depending on your network configuration.
+```
+git clone -b necosystem https://github.com/Toyoharu-Nishikawa/jsnote.git
 cd jsnote
 docker-compose up -d
 ```
