@@ -23,15 +23,15 @@ export function satproP(P, SPl, SPg){
   if(PsatT(SP1)==-1){SPl = null;SPg = null;return -1;}
   Pmin=SP1.P;
   if(P<=0){
-    //prvarf("Pressure is lower than zero");
+    console.log("Pressure is lower than zero");
     return -1;
   }
   if(P<Pmin){
-    //prvarf("Pressure is lower than the minimum pressure");
+    console.log("Pressure is lower than the minimum pressure");
     return -1;
   }
   if(P>22.064){
-    //prvarf("Pressure is higher than the maximam pressure(critical povar)");
+    console.log("Pressure is higher than the maximam pressure(critical povar)");
     return -1;
   }
   SP1.P=P;
