@@ -33,6 +33,7 @@ const save = (response, list, category,filename,code)=>{
           response.json({"state":"error: disabl to overwrite file of /usr/share/sample/list.json"});
         }
         else{
+          console.lo("successfully registered");
           response.json({"state":"successfully registered"});
         }
       });
@@ -43,7 +44,7 @@ const save = (response, list, category,filename,code)=>{
 const makeAndSave = (response, list, category,filename,code) =>{
   fs.access('/usr/share/sample/'+category, (err)=>{
     if(err){
-      console.log(err.code)
+      console.log("the dicretory of  "+ category + " is not foud. So make it.");
       fs.mkdir('/usr/share/sample/'+category,(err)=>{
         if(err){
           console.log("error: disabl to make directory of /usr/share/sample/"+category)
