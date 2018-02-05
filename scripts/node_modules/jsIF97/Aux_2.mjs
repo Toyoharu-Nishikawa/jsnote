@@ -36,7 +36,7 @@ export function ZPH_2(SP){
     SP.T = SP.T + dlt/SP.cp;
   }
   if(Flag==0){
-    prvarf("ZPH_2 not converged");
+    console.log("ZPH_2 not converged");
     return -1;
   }  
   return 1;
