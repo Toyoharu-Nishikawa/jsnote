@@ -36,5 +36,11 @@
     "list": [
       "HelloWorldExample.js"
     ]
+  },
+  {
+    "directory": "p5",
+    "list": [
+      "000_multiple_force_acting_on.js"
+    ]
   }
 ]
