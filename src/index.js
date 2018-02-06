@@ -33,7 +33,7 @@ const save = (response, list, category,filename,code)=>{
           response.json({"state":"error: disabl to overwrite file of /usr/share/sample/list.json"});
         }
         else{
-          console.lo("successfully registered");
+          console.log("successfully registered");
           response.json({"state":"successfully registered"});
         }
       });
