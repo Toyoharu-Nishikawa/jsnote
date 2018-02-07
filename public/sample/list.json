@@ -6,7 +6,8 @@
       "HelloWorldExample.js",
       "range.js",
       "parse_csv.js",
-      "indent_json.js"
+      "indent_json.js",
+      "childNodes.js"
     ]
   },
   {
@@ -34,7 +35,8 @@
   {
     "directory": "Three",
     "list": [
-      "HelloWorldExample.js"
+      "HelloWorldExample.js",
+      "grid.js"
     ]
   },
   {
