@@ -408,9 +408,18 @@ export const control = {
         req.onload = (e)=>{
           this.setSampleArea(req.response, true);
           req.open("GET","sample/sample.json",true);
-          req.onload = (e) =>{
-            this.setSampleArea(req.response, false);
-          }
+          req.onload = (e)=>{
+            switch(req.status){
+              case 200:
+                this.setSampleArea(req.response, false);
+                break;
+              default:
+                break;
+            }     
+          };
+          req.error = (e)=>{
+            console.log("http request error")
+          };
           req.send();
         };
         req.setRequestHeader("content-type","application/text");
