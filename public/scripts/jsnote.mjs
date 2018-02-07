@@ -417,7 +417,7 @@ export const control = {
                 break;
             }     
           };
-          req.error = (e)=>{
+          req.onerror = (e)=>{
             console.log("http request error")
           };
           req.send();
