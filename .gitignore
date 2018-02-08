@@ -1,8 +1,1 @@
-public/sample/*
-!public/sample/list.json
-!public/sample/JavaScript
-!public/sample/plotly
-!public/sample/SVG
-!public/sample/D3
-!public/sample/Three
-!public/sample/p5
+public/sample/private/*
