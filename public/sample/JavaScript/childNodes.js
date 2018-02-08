@@ -1,4 +1,2 @@
-const nodes = document.body.childNodes;
-const list = [...nodes];
+const nodes = [...document.body.childNodes];
 console.log(nodes);
-console.log(list);
