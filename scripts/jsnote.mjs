@@ -404,16 +404,17 @@ export const control = {
       },
       getSample: function(){
         let req = new XMLHttpRequest();
-        req.open("GET","sample/list.json",true);
+        req.open("GET","sample/public/list.json",true);
         req.onload = (e)=>{
-          this.setSampleArea(req.response, true);
-          req.open("GET","sample/sample.json",true);
+          this.setSampleArea(req.response, "public", true);
+          req.open("GET","sample/private/sample.json", true);
           req.onload = (e)=>{
             switch(req.status){
               case 200:
-                this.setSampleArea(req.response, false);
+                this.setSampleArea(req.response, "private", false);
                 break;
               default:
+                console.log("Your private sample is not yet registered. Register your sample code by pushing the bution of register")
                 break;
             }     
           };
@@ -426,7 +427,7 @@ export const control = {
         req.responseType ="text";
         req.send();
       },
-      setSampleArea: function(json,deleteFlag){
+      setSampleArea: function(json, PoP ,deleteFlag){
         let list = JSON.parse(json)
         const sampleArea = view.elements.sampleArea;
 
@@ -469,7 +470,7 @@ export const control = {
             let sample = document.createTextNode(value2);
             let li = document.createElement("li");
             li.appendChild(sample);
-            li.onclick = this.insertSample(value.directory, value2);
+            li.onclick = this.insertSample(PoP, value.directory, value2);
             ul[index2%3].appendChild(li);
           });
           ul.forEach((value3,index3,array3)=>{
@@ -507,11 +508,11 @@ export const control = {
           },
         });
       },//end of setSample
-      insertSample: function(directory, code){
+      insertSample: function(PoP, directory, code){
         return (e)=>{
           e.stopPropagation();
           let req = new XMLHttpRequest();
-          let url = "sample/" + directory + "/" +code;
+          let url = "sample/" + PoP + "/" + directory + "/" +code;
           window.onpopstate = getCode;
           addParamToHash("sample",url)
          if(!this.clickCount){
@@ -566,13 +567,15 @@ export const control = {
       },
       getSample: function(){
         let req = new XMLHttpRequest();
-        req.open("GET","sample/sample.json",true);
+        req.open("GET","sample/private/sample.json",true);
         req.onload = (e)=>{
           switch(req.status){
             case 200:
               this.setRegisterArea(req.response);
               break;
             default:
+              console.log("Your private sample is not yet registered. Register your sample code by pushing the bution of register")
+              this.setRegisterArea("[]");
               break;
           }     
         };
