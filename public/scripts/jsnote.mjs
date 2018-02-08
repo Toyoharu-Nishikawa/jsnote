@@ -568,7 +568,16 @@ export const control = {
         let req = new XMLHttpRequest();
         req.open("GET","sample/sample.json",true);
         req.onload = (e)=>{
-          this.setRegisterArea(req.response);
+          switch(req.status){
+            case 200:
+              this.setRegisterArea(req.response);
+              break;
+            default:
+              break;
+          }     
+        };
+        req.onerror = (e)=>{
+          console.log("http request error")
         };
         req.setRequestHeader("content-type","application/text");
         req.responseType ="text";
