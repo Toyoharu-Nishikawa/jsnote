@@ -21,16 +21,16 @@ app.get('/node', function(request, response) {
 });
 
 const save = (response, list, category,filename,code)=>{
-  fs.writeFile('/usr/share/sample/'+category+'/'+filename, code, (err)=>{
+  fs.writeFile('/usr/share/sample/private/'+category+'/'+filename, code, (err)=>{
     if(err){
        console.log("error: disabl to make file of /usr/share/sample/"+category+'/'+filename)
        response.json({"state":"error: disabl to make file of /usr/share/sample/"+category+'/'+filename});
     }
     else{
-      fs.writeFile('/usr/share/sample/sample.json',JSON.stringify(list,null,'  '),(err)=>{
+      fs.writeFile('/usr/share/sample/private/sample.json',JSON.stringify(list,null,'  '),(err)=>{
         if(err){
-          console.log("error: disabl to overwrite file of /usr/share/sample/list.json")
-          response.json({"state":"error: disabl to overwrite file of /usr/share/sample/list.json"});
+          console.log("error: disabl to overwrite file of /usr/share/sample/private/sample.json")
+          response.json({"state":"error: disabl to overwrite the file as /usr/share/sample/private/sample.json"});
         }
         else{
           console.log("successfully registered");
@@ -42,15 +42,16 @@ const save = (response, list, category,filename,code)=>{
 }
 
 const makeAndSave = (response, list, category,filename,code) =>{
-  fs.access('/usr/share/sample/'+category, (err)=>{
+  fs.access('/usr/share/sample/private/'+category, (err)=>{
     if(err){
-      console.log("the dicretory of  "+ category + " is not foud. So make it.");
-      fs.mkdir('/usr/share/sample/'+category,(err)=>{
+      console.log("the dicretory of  "+ category + " is not foud.");
+      fs.mkdir('/usr/share/sample/private/'+category,(err)=>{
         if(err){
-          console.log("error: disabl to make directory of /usr/share/sample/"+category)
-          response.json({"state":"error: disabl to make directory of /usr/share/sample/"+category});
+          console.log("error: disabl to make directory of /usr/share/sample/private/"+category)
+          response.json({"state":"error: disabl to make directory of /usr/share/sample/private/"+category});
         }
         else{
+          console.log("the directory of /usr/share/sample/private/"+category + " successfully has been made.")
           save(response, list, category,filename,code);
         }
       });
@@ -61,9 +62,15 @@ const makeAndSave = (response, list, category,filename,code) =>{
   })
 }
 const saveExe = (response, category,filename,code) =>{
-  fs.readFile('/usr/share/sample/sample.json', 'utf8',(err,data)=>{
+  fs.readFile('/usr/share/sample/private/sample.json', 'utf8',(err,data)=>{
     if(err){
-      respose.json({"state":"error: /usr/share/sample/sample.json is not found"});
+      console.log(" /usr/share/sample/private/sample.json is not found");
+      console.log("make sample.json, add new category of  "+ category+ " and add " + filename + "to it");
+      list = [{ 
+        directory: category,
+        list: [filename]
+      }];
+      makeAndSave(response,list,category,filename,code);
     }
     else{
       let list = JSON.parse(data);
@@ -80,7 +87,7 @@ const saveExe = (response, category,filename,code) =>{
         }
       }
       else{
-        console.log("add new category of  "+ category+ " and add " + filename + "to it");
+        console.log("add new category of  "+ category+ " and add " + filename +".");
         list.push({
           directory:category,
           list:[filename]
@@ -92,10 +99,10 @@ const saveExe = (response, category,filename,code) =>{
 }
 
 const checkPublicAndSave = (response, category ,filename, code)=>{
-  fs.readFile('/usr/share/sample/list.json', 'utf8',(err,data)=>{
+  fs.readFile('/usr/share/sample/public/list.json', 'utf8',(err,data)=>{
     if(err){
-      console.log("error: /usr/share/sample/list.json is not found")
-      response.json({"state":"error: /usr/share/sample/list.json is not found"});
+      console.log("error: /usr/share/sample/public/list.json is not found")
+      response.json({"state":"error: /usr/share/sample/public/list.json is not found"});
     }
     else{
       let list = JSON.parse(data);
@@ -123,8 +130,8 @@ app.all('/node/jsnoteregister',(request,response)=>{
   const category = request.body.category; 
   const filename = request.body.filename; 
   const code = request.body.code; 
-  console.log("merge request category : " + category)
-  console.log("merge request filename : " + filename)
+  console.log("category requested to merge: " + category)
+  console.log("filename requested to merge: " + filename)
   checkPublicAndSave(response, category ,filename, code);
 });
 
