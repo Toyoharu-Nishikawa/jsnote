@@ -1,6 +1,6 @@
 //three.js
-//hello world example 
-//three.js is WEBGL wrapper runnging on web brower 
+// make grid 
+// reference URL: http://www.natural-science.or.jp/article/20170326230454.php
 
 var width = 500;
 var height =500;
@@ -23,7 +23,7 @@ function z( x, y ){
 var N = 100;
 var w = 2;
  
-//x軸方向
+//x軸方吁E
 for( var i=0; i<N; i++){
     for( var j=0; j<=N; j++){
         var x0 = (i - N/2 ) * w;
@@ -50,13 +50,13 @@ for( var i=0; i<N; i++){
     }
 }
  
-//材質オブジェクトの宣言と生成
+//材質オブジェクト�E宣言と生�E
 var material = new THREE.LineBasicMaterial({ color: 0xFFFFFF, transparent:true, opacity:0.5 });
-//線オブジェクトの生成
+//線オブジェクト�E生�E
 lines = new THREE.LineSegments(geometry, material);
-//線オブジェクトのシーンへの追加
+//線オブジェクト�Eシーンへの追加
 scene.add(lines);
-//線オブジェクトの位置座標を設定
+//線オブジェクト�E位置座標を設宁E
 lines.position.set(0, 0, 0);
 
 camera.position.x = 100;
