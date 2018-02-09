@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 
 
-//conection URL
+const sampleDir = "/usr/share/nginx/html/sample" 
 
 app.set('port', 5000);
 app.use(express.static(__dirname + '/public'));
@@ -21,16 +21,16 @@ app.get('/node', function(request, response) {
 });
 
 const save = (response, list, category,filename,code)=>{
-  fs.writeFile('/usr/share/sample/private/'+category+'/'+filename, code, (err)=>{
+  fs.writeFile(sampleDir + '/private/'+category+'/'+filename, code, (err)=>{
     if(err){
-       console.log("error: disabl to make file of /usr/share/sample/"+category+'/'+filename)
-       response.json({"state":"error: disabl to make file of /usr/share/sample/"+category+'/'+filename});
+       console.log("error: disabl to make file of " + sampleDir +"/"+category+'/'+filename)
+       response.json({"state":"error: disabl to make file of "+sampleDir +"/" +category+'/'+filename});
     }
     else{
-      fs.writeFile('/usr/share/sample/private/sample.json',JSON.stringify(list,null,'  '),(err)=>{
+      fs.writeFile(sampleDir + '/private/sample.json',JSON.stringify(list,null,'  '),(err)=>{
         if(err){
-          console.log("error: disabl to overwrite file of /usr/share/sample/private/sample.json")
-          response.json({"state":"error: disabl to overwrite the file as /usr/share/sample/private/sample.json"});
+          console.log("error: disabl to overwrite file of "+ sampleDir + "/private/sample.json")
+          response.json({"state":"error: disabl to overwrite the file as "+sampleDir + "/private/sample.json"});
         }
         else{
           console.log("successfully registered");
@@ -42,16 +42,16 @@ const save = (response, list, category,filename,code)=>{
 }
 
 const makeAndSave = (response, list, category,filename,code) =>{
-  fs.access('/usr/share/sample/private/'+category, (err)=>{
+  fs.access(sampleDir + '/private/'+category, (err)=>{
     if(err){
       console.log("the dicretory of  "+ category + " is not foud.");
-      fs.mkdir('/usr/share/sample/private/'+category,(err)=>{
+      fs.mkdir(sampleDir + '/private/'+category,(err)=>{
         if(err){
-          console.log("error: disabl to make directory of /usr/share/sample/private/"+category)
-          response.json({"state":"error: disabl to make directory of /usr/share/sample/private/"+category});
+          console.log("error: disabl to make directory of " + sampleDir + " /private/"+category)
+          response.json({"state":"error: disabl to make directory of "+sampleDir + "/private/"+category});
         }
         else{
-          console.log("the directory of /usr/share/sample/private/"+category + " successfully has been made.")
+          console.log("the directory of "+ sampleDir + "/private/"+category + " successfully has been made.")
           save(response, list, category,filename,code);
         }
       });
@@ -62,9 +62,9 @@ const makeAndSave = (response, list, category,filename,code) =>{
   })
 }
 const saveExe = (response, category,filename,code) =>{
-  fs.readFile('/usr/share/sample/private/sample.json', 'utf8',(err,data)=>{
+  fs.readFile(sampleDir + '/private/sample.json', 'utf8',(err,data)=>{
     if(err){
-      console.log(" /usr/share/sample/private/sample.json is not found");
+      console.log(sampleDir + "/private/sample.json is not found");
       console.log("make sample.json, add new category of  "+ category+ " and add " + filename + "to it");
       list = [{ 
         directory: category,
@@ -99,10 +99,10 @@ const saveExe = (response, category,filename,code) =>{
 }
 
 const checkPublicAndSave = (response, category ,filename, code)=>{
-  fs.readFile('/usr/share/sample/public/list.json', 'utf8',(err,data)=>{
+  fs.readFile(sampleDir + '/public/list.json', 'utf8',(err,data)=>{
     if(err){
-      console.log("error: /usr/share/sample/public/list.json is not found")
-      response.json({"state":"error: /usr/share/sample/public/list.json is not found"});
+      console.log("error: " + sampleDir + "/public/list.json is not found")
+      response.json({"state":"error: " + sampleDir + "/public/list.json is not found"});
     }
     else{
       let list = JSON.parse(data);
