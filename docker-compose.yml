@@ -6,6 +6,7 @@ services:
     volumes:
       - ./src:/usr/src
       - ./public/sample:/usr/share/nginx/html/sample
+      - /var/log/jsnote:/var/log/node
     working_dir: '/usr/src'
     command: npm start
     networks:
