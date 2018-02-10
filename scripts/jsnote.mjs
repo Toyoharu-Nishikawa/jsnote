@@ -293,7 +293,7 @@ export const view = {
           }
         }
         else{
-          if(me.lag) {
+          if(me.flag) {
             me.flag = false;
             e.currentTarget.style.cursor = "default";
             if(!drag.flag){drag.remove();} 
