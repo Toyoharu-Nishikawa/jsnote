@@ -5,7 +5,7 @@ services:
       context: ./ 
       dockerfile: ./api/Dockerfile
     volumes:
-      - ./public/sample/private:/usr/share/nginx/html/sample/private
+      - .//sample:/usr/share/nginx/html/sample/private
   web:
     build:  
       context: ./ 
@@ -13,4 +13,4 @@ services:
     ports:
       - "2555:80"
     volumes:
-      - ./public/sample/private:/usr/share/nginx/html/sample/private
+      - ./sample:/usr/share/nginx/html/sample/private

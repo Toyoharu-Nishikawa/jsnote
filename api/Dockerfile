@@ -1,6 +1,6 @@
 FROM node:alpine
 ADD src /usr/src/
-ADD public/sample/private /usr/share/nginx/html/sample/private
+ADD public/sample /usr/share/nginx/html/sample
 WORKDIR /usr/src
 ENTRYPOINT ["npm","start"]
 
