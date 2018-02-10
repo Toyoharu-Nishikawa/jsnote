@@ -1,10 +1,13 @@
-jsnote
-========
-![Imgur](https://i.imgur.com/HRDIOeq.png)
+# jsnote
+
+![Imgur](https://i.imgur.com/HstpPha.png)  
+
 ## Overview
 javascript is what a wonderful language!!  
 I believe we can change the world by javascript.  
 i'm lovin' it
+
+![Imgur](https://i.imgur.com/HRDIOeq.png)
 
 ## Dsescription
 jsnote will present you easy and fast coding place.    
