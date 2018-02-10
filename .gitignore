@@ -1,5 +1,5 @@
-./*
-!.README.md
-!./docker-compose.yaml
-!./log
-!./sample
+public/
+src/
+web/
+api/
+conf.d/
