@@ -1,16 +1,14 @@
 version: '2'
 services:
   api:
-    build: 
-      context: ./ 
-      dockerfile: ./api/Dockerfile
+    image: toyohal24/jsnote_api
     volumes:
       - ./sample:/usr/share/nginx/html/sample/private
+      - ./log:/var/log/node
   web:
-    build:  
-      context: ./ 
-      dockerfile: ./web/Dockerfile 
+    image: toyohal24/jsnote
     ports:
       - "2555:80"
     volumes:
       - ./sample:/usr/share/nginx/html/sample/private
+      - ./log:/var/log/nginx

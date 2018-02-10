@@ -1,3 +1,5 @@
-public/sample/private/*
-!public/sample/private/ReadMe.md
-!public/sample/private/sample.json
+./*
+!.README.md
+!./docker-compose.yaml
+!./log
+!./sample
