@@ -4,14 +4,12 @@ services:
     build: 
       context: ./ 
       dockerfile: ./api/Dockerfile
-    restart: always 
     volumes:
       - ./public/sample/private:/usr/share/nginx/html/sample/private
   web:
     build:  
       context: ./ 
       dockerfile: ./web/Dockerfile 
-    restart: always 
     ports:
       - "2555:80"
     volumes:
