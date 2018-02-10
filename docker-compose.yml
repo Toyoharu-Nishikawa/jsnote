@@ -5,7 +5,7 @@ services:
       context: ./ 
       dockerfile: ./api/Dockerfile
     volumes:
-      - .//sample:/usr/share/nginx/html/sample/private
+      - ./sample:/usr/share/nginx/html/sample/private
   web:
     build:  
       context: ./ 
