@@ -16,7 +16,7 @@ jsnote is simple javascript editor running on web browsers.
 
 
 ## Demo
-Go to [jsnote](https://toyoharu-nishikawa.github.io/jsnote/public/index.html)
+Go to [jsnote](https://toyoharu-nishikawa.github.io/jsnote/)
 
 ## Usage
 
@@ -76,14 +76,19 @@ public
 |-- scripts
 |-- styles
 |-- sample
-  |--list.json
-  |--native_javascript
-  |  |-- README.js
-  |  |-- HelloWorldExample.js
-  |--plotly
-  |  |-- HelloWorldExample.js
-  |--svig
-  |  |-- HelloWorldExample.js
+  |-- public
+  |  |--list.json
+  |  |--JavaScript
+  |  |  |-- READ_ME.js
+  |  |  |-- HelloWorldExample.js
+  |  |--plotly
+  |  |   |-- HelloWorldExample.js
+  |  |--svig
+  |  |  |-- HelloWorldExample.js
+  |--private
+     |--sample.json
+     |-- ReadMe.md
+     |-- your private sample category 
   .
   .
   .
@@ -93,20 +98,34 @@ public
 ##### Method 1 : pull from Docker Hub (WEB server only)
 pull image from Docker Hub and built with docker-compose
 
-step1: make docker-.compose.yaml  
+step1: make the direcotry as "jsnote" and move to it
 
-```docker-compose.yaml
+```shell
+mkdir jsnote
+cd jsnote
+```
+
+step2: make "docker-.compose.yaml" in the direcotory of "jsnote" 
+
+```jsnote/docker-compose.yaml
 version: '2'
-services:
-  jsnote:
+services:  
+  api:
+    image: toyohal24/jsnote_api
+    restart: always
+    volumes 
+      - ./sample:/usr/share/nginx/html/sample/private
+      - ./log:/var/log/node
+  web:  
     image: toyohal24/jsnote
     restart: always
     ports:
       - "2555:80"
-    #volumes // uncomment two lines from here if you have your original sample
-    #  - ./sample:/var/share/nginx/html/sample
+    volumes 
+      - ./sample:/usr/share/nginx/html/sample/private
+      - ./log:/var/log/nginx
 ```
-step2: build with docker-compose
+step3: build with docker-compose in the directory of "jsnote"
 
 ```shell
 docker-compose up -d
