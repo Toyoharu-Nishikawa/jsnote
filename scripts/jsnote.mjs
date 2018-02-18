@@ -158,6 +158,7 @@ const saveStringAsFile = function (){
   if(Array.isArray(exportText)){
     const size = exportText.reduce((p,c)=>p+c.length, 0);
     if(size<10**9){
+      console.log(`file size: ${size/10**9} GB`)
       console.log("download a file")
       const newList = ["["]
       exportText.forEach((text)=>{
@@ -170,6 +171,7 @@ const saveStringAsFile = function (){
       saveAs(blob, filename)
     }
     else{
+      console.log(`file size: ${size/10**9} GB`)
       console.log("download each files")
       const lastDotPosition = filename.lastIndexOf('.');
       const bare = filename.substr(0, lastDotPosition);
@@ -366,8 +368,9 @@ export const control = {
     },//end of read
     save: {
       execute: function(){
-        let string = editor.getValue();
-        saveStringAsFile(string, 'jsnote.txt');
+        const string = editor.getValue();
+        const blob = new Blob([string],{type:'text/plain;charset=utf-8;'}) 
+        saveAs(blob, 'jsnote.txt');
       },//end of execute
       add: function(){
         view.elements.save.addEventListener('click',(e)=>{
