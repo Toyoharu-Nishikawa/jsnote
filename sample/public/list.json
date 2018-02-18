@@ -18,7 +18,9 @@
       "simple_bar.js",
       "simple_pie.js",
       "simple_scatter.js",
-      "parse_csv.js"
+      "parse_csv.js",
+      "surface_contour.js",
+      "structual_grid.js"
     ]
   },
   {
