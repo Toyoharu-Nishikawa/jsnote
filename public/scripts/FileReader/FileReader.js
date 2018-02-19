@@ -17,6 +17,7 @@ var importFiles = function(elem,data, callback) {
           text: fileData,
         });
         reader.removeEventListener('load',dataInjection,false);
+        console.log(`read ${filename}`)
         resolve(fileData);
         reject("error");
       }
@@ -28,10 +29,12 @@ var importFiles = function(elem,data, callback) {
   function change(e){
     let filelist = e.target.files;
     let promise = [];
+    console.log("start to read files")
     for(let file of filelist){
       promise.push(readFile(file))
     }
     Promise.all(promise).then(function(value){
+        console.log("finish reading files")
         callback && callback();
       },
       function(reason){
