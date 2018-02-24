@@ -12,6 +12,14 @@
     ]
   },
   {
+    "directory": "module",
+    "list": [
+      "export_test1.js",
+      "export_test2.js",
+      "import_test1.js"
+     ]
+  }, 
+  {
     "directory": "plotly",
     "list": [
       "HelloWorldExample.js",
