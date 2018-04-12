@@ -1,9 +1,12 @@
 //jsnote namespac
+
+import {saveAs} from "../file-saver/FileSaver.js"
 "use strict"
 /*reference url about ace editor 
 https://github.com/ajaxorg/ace/issues/91
 https://stackoverflow.com/questions/29620161/how-to-set-indent-size-in-ace-editor
 */
+
 
 window.importTexts = [];
 window.exportText = "";
@@ -154,41 +157,93 @@ jsnoteInitialize();
 window.onpopstate = jsnoteInitialize;
 
 const saveStringAsFile = function (){
-  const filename = window.exportFileName || "jsnote_export.txt";
-  if(Array.isArray(exportText)){
-    const size = exportText.reduce((p,c)=>p+c.length, 0);
-    if(size<10**9){
-      console.log(`file size: ${size/10**9} GB`)
-      console.log("download a file")
-      const newList = ["["]
-      exportText.forEach((text)=>{
-        newList.push(text)
-        newList.push(",")
-      })
-      newList.pop()
-      newList.push("]")
-      const blob = new Blob([...newList], {type: 'text/plain; charset=utf-8'})
-      saveAs(blob, filename)
+  const filename = window.exportFileName || "jsnote_export.txt"
+  console.log(exportFileName.length)
+  if(Array.isArray(filename)){
+    if(Array.isArray(exportText)){
+
+      let count = 0
+      const save = ()=>{
+        const name = filename.length > count ? filename[count] :
+           `jsnote_export_${count}.txt`
+        console.log(name)
+        console.log(exportText)
+        const text = exportText[count]
+        const blob = new Blob([text], {type: 'text/plain; charset=utf-8'});
+        saveAs(blob, name );
+
+        const id = setTimeout(save, 100);
+        count++
+        if(count > exportText.length-1){　
+          exportText = null;
+          exportFileName = null;
+          clearTimeout(id)
+        }
+       
+      }
+      save()
+      //exportText.forEach((text, index)=>{
+        //const fileStream = streamSaver.createWriteStream(name)
+        //const writer = fileStream.getWriter()
+       // const encoder = new TextEncoder
+        //let uint8array = encoder.encode(text)
+
+        //writer.write(uint8array)
+        //writer.close()
+    // })
     }
     else{
-      console.log(`file size: ${size/10**9} GB`)
-      console.log("download each files")
-      const lastDotPosition = filename.lastIndexOf('.');
-      const bare = filename.substr(0, lastDotPosition);
-      const extension = filename.substr(lastDotPosition+1).toLowerCase();
+      const blob = new Blob([exportText], {type: 'text/plain; charset=utf-8'});
+      saveAs(blob, filename[0]);
 
-      exportText.forEach((text,index)=>{
-          const blob = new Blob([text], {type: 'text/plain; charset=utf-8'});
-          const newFileName = bare + "_" + index + "." +extension;
-          saveAs(blob, newFileName);
-      })
+      exportText = null;
+      exportFileName = null;
     }
   }
   else{
-    const blob = new Blob([exportText], {type: 'text/plain; charset=utf-8'});
-    saveAs(blob, filename);
+    if(Array.isArray(exportText)){
+      const size = exportText.reduce((p,c)=>p+c.length, 0);
+      if(size<10**9){
+        console.log(`file size: ${size/10**9} GB`)
+        console.log("download a file")
+        const newList = ["["]
+        exportText.forEach((text)=>{
+          newList.push(text)
+          newList.push(",")
+        })
+        newList.pop()
+        newList.push("]")
+        const blob = new Blob([...newList], {type: 'text/plain; charset=utf-8'})
+        saveAs(blob, filename)
+
+        exportText = null;
+        exportFileName = null;
+      }
+      else{
+        console.log(`file size: ${size/10**9} GB`)
+        console.log("download each files")
+        const lastDotPosition = filename.lastIndexOf('.');
+        const bare = filename.substr(0, lastDotPosition);
+        const extension = filename.substr(lastDotPosition+1).toLowerCase();
+  
+        exportText.forEach((text,index)=>{
+            const blob = new Blob([text], {type: 'text/plain; charset=utf-8'});
+            const newFileName = bare + "_" + index + "." +extension;
+            saveAs(blob, newFileName);
+        })
+
+        exportText = null;
+        exportFileName = null;
+      }
+    }
+    else{
+      const blob = new Blob([exportText], {type: 'text/plain; charset=utf-8'});
+      saveAs(blob, filename);
+
+      exportText = null;
+      exportFileName = null;
+    }
   }
-  exportText = null;
 };
 
 export const view = {
