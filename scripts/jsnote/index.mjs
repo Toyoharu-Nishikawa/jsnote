@@ -158,7 +158,6 @@ window.onpopstate = jsnoteInitialize;
 
 const saveStringAsFile = function (){
   const filename = window.exportFileName || "jsnote_export.txt"
-  console.log(exportFileName.length)
   if(Array.isArray(filename)){
     if(Array.isArray(exportText)){
 
@@ -166,8 +165,6 @@ const saveStringAsFile = function (){
       const save = ()=>{
         const name = filename.length > count ? filename[count] :
            `jsnote_export_${count}.txt`
-        console.log(name)
-        console.log(exportText)
         const text = exportText[count]
         const blob = new Blob([text], {type: 'text/plain; charset=utf-8'});
         saveAs(blob, name );
