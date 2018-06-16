@@ -8,9 +8,10 @@ https://stackoverflow.com/questions/29620161/how-to-set-indent-size-in-ace-edito
 */
 
 
-window.importTexts = [];
-window.exportText = "";
-window.exportFileName = "";
+window.importTexts = []
+window.exportText = ""
+window.exportFileName = ""
+window.exportFileBOM = true
 
 const parseParam = (hash)=>{
   if(hash){
@@ -160,41 +161,33 @@ const saveStringAsFile = function (){
   const filename = window.exportFileName || "jsnote_export.txt"
   if(Array.isArray(filename)){
     if(Array.isArray(exportText)){
-
       let count = 0
       const save = ()=>{
         const name = filename.length > count ? filename[count] :
            `jsnote_export_${count}.txt`
         const text = exportText[count]
         const blob = new Blob([text], {type: 'text/plain; charset=utf-8'});
-        saveAs(blob, name );
+        saveAs(blob, name, exportFileBOM);
 
         const id = setTimeout(save, 100);
         count++
         if(count > exportText.length-1){　
           exportText = null;
           exportFileName = null;
+          exportFileBOM = true;
           clearTimeout(id)
         }
        
       }
       save()
-      //exportText.forEach((text, index)=>{
-        //const fileStream = streamSaver.createWriteStream(name)
-        //const writer = fileStream.getWriter()
-       // const encoder = new TextEncoder
-        //let uint8array = encoder.encode(text)
-
-        //writer.write(uint8array)
-        //writer.close()
-    // })
     }
     else{
       const blob = new Blob([exportText], {type: 'text/plain; charset=utf-8'});
-      saveAs(blob, filename[0]);
+      saveAs(blob, filename[0],exportFileBOM);
 
       exportText = null;
-      exportFileName = null;
+      exportFileName = null
+      exportFileBOM = true 
     }
   }
   else{
@@ -211,10 +204,11 @@ const saveStringAsFile = function (){
         newList.pop()
         newList.push("]")
         const blob = new Blob([...newList], {type: 'text/plain; charset=utf-8'})
-        saveAs(blob, filename)
+        saveAs(blob, filename, exportFileBOM)
 
         exportText = null;
         exportFileName = null;
+        exportFileBOM = true 
       }
       else{
         console.log(`file size: ${size/10**9} GB`)
@@ -226,19 +220,21 @@ const saveStringAsFile = function (){
         exportText.forEach((text,index)=>{
             const blob = new Blob([text], {type: 'text/plain; charset=utf-8'});
             const newFileName = bare + "_" + index + "." +extension;
-            saveAs(blob, newFileName);
+            saveAs(blob, newFileName, exportFileBOM);
         })
 
         exportText = null;
         exportFileName = null;
+        exportFileBOM = true 
       }
     }
     else{
       const blob = new Blob([exportText], {type: 'text/plain; charset=utf-8'});
-      saveAs(blob, filename);
+      saveAs(blob, filename, exportFileBOM);
 
       exportText = null;
       exportFileName = null;
+      exportFileBOM = true 
     }
   }
 };
