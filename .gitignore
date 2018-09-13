@@ -1,3 +1,4 @@
 public/sample/private/*
 *.swp
 !public/sample/private/ReadMe.md
+!public/sample/private/sample.json
