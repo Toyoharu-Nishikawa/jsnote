@@ -1,6 +1,6 @@
 //jsnote namespac
 
-import {saveAs} from "../file-saver/FileSaver.js"
+//import {saveAs} from "../file-saver/FileSaver.js"
 "use strict"
 /*reference url about ace editor 
 https://github.com/ajaxorg/ace/issues/91
@@ -400,12 +400,11 @@ export const control = {
   func: {
     read: {
       execute: function(){
-        let element = view.elements.importFile;
+        const element = view.elements.importFile;
         editor.setValue('');
-        let text = [];
-        importFiles(element,text,()=>{
-          editor.setValue(text[0].text);
-        });
+        importFiles(element,(files)=>{
+          editor.setValue(files[0].text);
+        })
       },//end of execute
       add: function(){
         view.elements.read.addEventListener('click',(e)=>{
@@ -428,10 +427,10 @@ export const control = {
       },//end of add
     },//end of save
     import: {
-      execute: function(){
-        let element = view.elements.readFile;
+      execute: async function(){
+        const element = view.elements.readFile;
         importTexts = [];
-        importFiles(element, importTexts)
+        importTexts = await importFiles(element)
       },//end of execute
       add: function(){
         view.elements.import.addEventListener('click',(e)=>{
