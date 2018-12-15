@@ -44,7 +44,25 @@ Go to [jsnote](https://toyoharu-nishikawa.github.io/jsnote/)
     exports the value of "exportText" assigned string data as a text file.  
     Assign string data to "exportText" before clicking the buttion of export.  
     Ex.  
-    exportText = "welcome to jsnote" //before clicking the button of export
+
+(1)export a file
+
+```JavaScript
+exportFileName = "a.txt" // file name of exportText (default is "jsnote_export.txt")
+exportFileBOM = true // ture (default): without BOM, false: with BOM (BOM is initial sign of utf-8 file)
+exportText = "welcome to jsnote" //before clicking the button of export
+```
+
+(2)export files
+
+```JavaScript
+      exportFileName = ["a.json", "b.json"]
+      exportFileBOM = false
+      exportText = [
+        JSON.stringify({a:1,b:2},null,"  "),
+        JSON.stringify({x:1,y:2},null,"  "),
+      ]
+```
 
 - "sample"  
     suggests you a lot of sample codes

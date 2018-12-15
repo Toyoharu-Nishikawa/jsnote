@@ -4,13 +4,8 @@ services:
     build: 
       context: ./ 
       dockerfile: ./api/Dockerfile
-    volumes:
-      - ./sample:/usr/share/nginx/html/sample/private
   web:
     build:  
       context: ./ 
       dockerfile: ./web/Dockerfile 
-    ports:
-      - "2555:80"
-    volumes:
-      - ./sample:/usr/share/nginx/html/sample/private
+
