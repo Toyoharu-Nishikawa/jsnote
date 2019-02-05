@@ -524,7 +524,7 @@ export function ph2mu(P, h, n) {
   }
   else {
     x = SP.x;
-    if (transatP(p, SP, SP1) == -1) { SP = null; return -1; }
+    if (transatP(P, SP, SP1) == -1) { SP = null; return -1; }
     if (n == 0) {
       mu = 1 / (x / SP1.mu + (1.0 - x) / SP.mu);
     }
