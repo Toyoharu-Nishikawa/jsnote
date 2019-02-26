@@ -6,7 +6,6 @@ import {login} from "/necoengine/scripts/necoengine/login/index.js"
 login.setLoginButton()
 login.visit()
 
-
 window.if97= if97
 window.sci=sci 
 
