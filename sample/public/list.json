@@ -15,7 +15,8 @@
     "directory": "Workbench",
     "list": [
       "application.js",
-      "controller.js"
+      "controller.js",
+                "solve.js"
      ]
   }, 
   {
