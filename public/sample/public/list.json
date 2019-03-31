@@ -12,6 +12,13 @@
     ]
   },
   {
+    "directory": "Workbench",
+    "list": [
+      "application.js",
+      "controller.js"
+     ]
+  }, 
+  {
     "directory": "module",
     "list": [
       "export_test1.js",
