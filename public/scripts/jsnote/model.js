@@ -37,9 +37,13 @@ export const model = {
       drawCheckBox()
     }
   },
-  workbenchUpdate:function(e){
+  workbenchUpdateEnd:function(e){
+    console.log("listen event of workbench.update.end")
     const res = e.detail
+    console.log(res)
     window.workbenchInput = res
+    const ev = new CustomEvent("self.input.update") 
+    document.dispatchEvent(ev)
   },
   read:{
     execute: async function(){
