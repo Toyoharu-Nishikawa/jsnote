@@ -112,9 +112,9 @@ export const control = {
       model.workbench = workbench
     }
   },
-  workbenchUpdate:{
+  workbenchUpdateEnd:{
     add:function(){
-      document.addEventListener("Workbench.update.end", model.workbenchUpdate)
+      document.addEventListener("Workbench.update.end", model.workbenchUpdateEnd)
     }
   },
   initialize: function(workbench){
@@ -131,7 +131,7 @@ export const control = {
       this.drawCheckBox,
       this.key,
       this.view,
-      this.workbenchUpdate
+      this.workbenchUpdateEnd,
     ]
     controls.forEach(v=>v.add())
     model.initialize()
