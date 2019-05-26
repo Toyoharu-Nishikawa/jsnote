@@ -1,7 +1,7 @@
 version: '2'
 services:
-  node:
-    image: node 
+  api:
+    image: node:alpine
     restart: always 
     volumes:
       - ./src:/usr/src
@@ -9,12 +9,19 @@ services:
       - /var/log/jsnote:/var/log/node
     working_dir: '/usr/src'
     command: npm start
-  nginx:
-    image: nginx
+    networks:
+      - default
+  web:
+    image: nginx:alpine
     restart: always 
     volumes:
       - ./public:/usr/share/nginx/html
       - ./conf.d:/etc/nginx/conf.d
       - /var/log/jsnote:/var/log/nginx
-    ports:
-      - "2555:80"
+    networks:
+      - neco_link
+      - default
+networks:
+  neco_link:
+    external: true
+
