@@ -6,9 +6,7 @@ services:
       dockerfile: ./api/Dockerfile
     restart: always 
     volumes:
-      - ./src:/usr/src
       - ./public/sample:/usr/share/nginx/html/sample
-      - /var/log/jsnote:/var/log/node
     networks:
       - default
   web:
