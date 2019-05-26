@@ -1,7 +1,7 @@
 version: '2'
 services:
-  node:
-    image: node 
+  api:
+    image: node:alpine
     restart: always 
     volumes:
       - ./src:/usr/src
@@ -11,8 +11,8 @@ services:
     command: npm start
     networks:
       - default
-  nginx:
-    image: nginx
+  web:
+    image: nginx:alpine
     restart: always 
     volumes:
       - ./public:/usr/share/nginx/html
