@@ -4,8 +4,22 @@ services:
     build: 
       context: ./ 
       dockerfile: ./api/Dockerfile
+    restart: always 
+    volumes:
+      - ./src:/usr/src
+      - ./public/sample:/usr/share/nginx/html/sample
+      - /var/log/jsnote:/var/log/node
+    networks:
+      - default
   web:
     build:  
       context: ./ 
       dockerfile: ./web/Dockerfile 
+    restart: always 
+    networks:
+      - neco_link
+      - default
+networks:
+  neco_link:
+    external: true 
 
