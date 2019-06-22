@@ -5,7 +5,7 @@ services:
     restart: always 
     volumes:
       - ./src:/usr/src
-      - ./public/sample:/usr/share/nginx/html/sample
+      - ./sample:/usr/share/nginx/html/sample
       - /var/log/jsnote:/var/log/node
     working_dir: '/usr/src'
     command: npm start
@@ -16,6 +16,7 @@ services:
     restart: always 
     volumes:
       - ./public:/usr/share/nginx/html
+      - ./sample:/usr/share/nginx/html/sample
       - ./conf.d:/etc/nginx/conf.d
       - /var/log/jsnote:/var/log/nginx
     networks:
