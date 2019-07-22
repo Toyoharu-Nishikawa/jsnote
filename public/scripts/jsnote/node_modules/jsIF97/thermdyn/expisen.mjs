@@ -59,7 +59,7 @@ export const  expisen1 = (P, T) => {
   const expis = {
     cp :cp,
     cv: cv,
-    kappa: kappa
+    k: kappa
   }
   
   return expis 
@@ -93,7 +93,7 @@ export const expisen2 = (P, T) => {
   const expis = { 
     cp: cp,
     cv: cv,
-    kappa: kappa,
+    k: kappa,
   }
   
   return expis 
@@ -151,7 +151,7 @@ export const expisen3h = (v, T) => {
   const expis = { 
     cp: cp,
     cv: cv,
-    kappa: kappa,
+    k: kappa,
   }
   
   return expis 
@@ -183,7 +183,7 @@ export const expisen5 = (P, T) => {
   const expis = { 
     cp: cp,
     cv: cv,
-    kappa: kappa,
+    k: kappa,
   }
   
   return expis 
