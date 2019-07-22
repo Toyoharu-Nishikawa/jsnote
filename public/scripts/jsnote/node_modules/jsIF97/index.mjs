@@ -24,7 +24,7 @@ import {surfsatP} from "./others/surfsatP.mjs"
 
 //version()
 
-//pt2all(P, T) 
+//pt2state(P, T) 
 //pt2g(P, T) 
 //pt2u(P, T)
 //pt2v(P, T)
@@ -45,7 +45,7 @@ import {surfsatP} from "./others/surfsatP.mjs"
 //pt2pH(P, T)
 //pt2ref(P, T, lambda)
 
-//ph2all(P, h)
+//ph2state(P, h)
 //ph2g(P, h)
 //ph2u(P, h)
 //ph2v(P, h)
@@ -59,7 +59,7 @@ import {surfsatP} from "./others/surfsatP.mjs"
 //ph2cv(P, h)
 //ph2k(P, h)
 
-//ps2all(P, s)
+//ps2state(P, s)
 //ps2g(P, s)
 //ps2u(P, s)
 //ps2v(P, s)
@@ -107,9 +107,23 @@ export const version = ()=> {
 }
 
 // pt
-export const pt2all = (P, T) => {
+export const pt2state = (P, T) => {
   const state = propPT(P, T)
   return state
+}
+
+export const pt2all = (P, T, lambda) => {
+  const state = pt2state(P, T)
+  const trans = pt2trans(P, T)
+  const expis = pt2expis(P, T)
+
+  const epsilon = pt2epsilon(P, T)
+  const pH = pt2pH(P, T)
+  const ref = pt2ref(P, T, lambda)
+
+  const all = {...state, ...trans, ...expis, epsilon, pH, ref}
+  return all
+
 }
 
 export const pt2g = (P, T) => { 
@@ -119,7 +133,7 @@ export const pt2g = (P, T) => {
   // output
   // g:Gibbs free enagy [kJ/kg]
   
-  const state = pt2all(P, T) 
+  const state = pt2state(P, T) 
   const g = state.g
   
   return g
@@ -132,7 +146,7 @@ export const pt2u = (P, T) => {
   // output
   // u:internal energy [kJ/kg]
   
-  const state = pt2all(P, T) 
+  const state = pt2state(P, T) 
   const u = state.u
   
   return u
@@ -145,7 +159,7 @@ export const pt2v = (P, T) => {
   // output
   // v:specific volume [m^3/kg]
 
-  const state = pt2all(P, T) 
+  const state = pt2state(P, T) 
   const v = state.v
   
   return v
@@ -158,7 +172,7 @@ export const pt2h = (P, T) => {
   // output
   // h:specific enthalpy [kJ/kg]
   
-  const state = pt2all(P, T) 
+  const state = pt2state(P, T) 
   const h = state.h
   
   return h
@@ -171,7 +185,7 @@ export const pt2s = (P, T) => {
   // output
   // s:specific entropy [kJ/kgK]
   
-  const state = pt2all(P, T)
+  const state = pt2state(P, T)
   const s = state.s
   
   return s
@@ -184,7 +198,7 @@ export const pt2w = (P, T) => {
   // output
   // w: speed of sound in m/s
   
-  const state = pt2all(P, T)
+  const state = pt2state(P, T)
   const w = state.w
 
   return w
@@ -197,7 +211,7 @@ export const pt2MM = (P, T) => {
   // output
   // MM: Region
   
-  const state = pt2all(P, T)
+  const state = pt2state(P, T)
   const MM = state.MM
 
   return MM
@@ -210,7 +224,7 @@ export const pt2cp = (P, T) => {
   // output
   // cp: isobaric spcific heat in kJ/kgK
   
-  const state = pt2all(P, T)
+  const state = pt2state(P, T)
   const cp = state.cp
 
   return cp 
@@ -243,7 +257,7 @@ export const pt2k = (P, T) => {
   // output
   // kappa: isentropic exponent [-]
 
-  const state = pt2all(P, T)
+  const state = pt2state(P, T)
   const k = state.k
   
   return k 
@@ -304,6 +318,7 @@ export const  pt2Pr = (P, T) => {
   return Pr  
 }
 
+
 export const pt2epsilon = (P, T) => {
   // input
   // p:puressure [MPa] , t:temperature [K]
@@ -341,11 +356,46 @@ export const pt2ref = (P, T, lambda) => {
 }
 
 //ph
-export const ph2all = (P, h) => {
+export const ph2state = (P, h) => {
   // input
   // P:pressure [Pa], h:specific enthalpy [kJ/kg]
  
   const state = propPH(P, h)
+
+  return state
+}
+
+export const ph2all = (P, h, n) => {
+  const state = ph2state(P, h)
+  const MM = state.MM
+  const T = state.T
+  let mu
+  if(MM != 4) {
+    const trans = pt2trans(P, T)
+    mu = trans.mu
+  }
+  else {
+    const x = state.x
+    const {l, g} = transatP(P)
+    switch(n){
+      case 0 : {
+        mu = 1 / (x / g.mu + (1.0 - x) / l.mu)
+      }
+      case 1 : {
+        mu = g.mu * x + l.mu * (1.0 - x)
+      } 
+      case 2 : {
+        mu = g.mu
+      }
+      case 3 : {
+        mu = l.mu
+      }
+      default : {
+        mu = 1 / (x / g.mu + (1.0 - x) / l.mu)
+      }
+    }
+  }
+  state.mu = mu
 
   return state
 }
@@ -462,7 +512,7 @@ export const ph2mu = (P, h, n) => {
   // output
   // mu:viscosity [Pa-s]
  
-  const state = ph2all(P, h)
+  const state = ph2state(P, h)
   const T = state.T
   const MM = state.MM
   if(MM != 4) {
@@ -504,7 +554,7 @@ export const ph2cp = (P, h) => {
   // output
   // cp:heat capacity [kJ/(kg-K)]
   
-  const state = ph2all(P, h) 
+  const state = ph2state(P, h) 
   const T = state.T
   const MM = state.MM
   if(MM != 4) {
@@ -525,7 +575,7 @@ export const ph2cv = (P, h) => {
   // output
   // cv:heat capacity [kJ/(kg-K)]
   
-  const state = ph2all(P, h)  
+  const state = ph2state(P, h)  
   const T = state.T
   const MM = state.MM
   if (MM != 4) {
@@ -547,32 +597,50 @@ export const ph2k = (P, h) => {
   // kappa: isentropic exponent [-]
   
   
-  const state = ph2all(P, h) 
+  const state = ph2state(P, h) 
   const k = state.k
 
   return k
-//  const del = 1.0e-6
-//  const state = ph2all(P, h) 
-//  const MM = state.MM 
-//  const T = state.T 
-//  if (MM != 4) {
-//    const expis = expisPT(P, T)
-//    const kappa = expis.kappa;
-//    return kappa
-//  }
-//  else {
-//    const P1 = P + del
-//    const state1 = ps2all(P1, s)
-//    const v = state.v
-//    const v1 = state1.v
-//    const  kappa = -Math.log(P1 / P) / Math.log(v1 / v)
-//    return kappa
-//  }
 }
   
 //ps
-export const ps2all = (P, s) => {
+export const ps2state = (P, s) => {
   const state = propPS(P, s)
+  return state
+}
+
+export const ps2all = (P, s, n) => {
+  const state = ps2state(P, s)
+  const MM = state.MM
+  const T = state.T
+  let mu
+  if(MM != 4) {
+    const trans = pt2trans(P, T)
+    mu = trans.mu
+  }
+  else {
+    const x = state.x
+    const {l, g} = transatP(P)
+    switch(n){
+      case 0 : {
+        mu = 1 / (x / g.mu + (1.0 - x) / l.mu)
+      }
+      case 1 : {
+        mu = g.mu * x + l.mu * (1.0 - x)
+      } 
+      case 2 : {
+        mu = g.mu
+      }
+      case 3 : {
+        mu = l.mu
+      }
+      default : {
+        mu = 1 / (x / g.mu + (1.0 - x) / l.mu)
+      }
+    }
+  }
+  state.mu = mu
+
   return state
 }
 
@@ -583,7 +651,7 @@ export const ps2g = (P, s) => {
   // output
   // g:Gibbs free enagy [kJ/kg]
   
-  const state = ps2all(P, s)  
+  const state = ps2state(P, s)  
   const g = state.g
   
   return g
@@ -596,7 +664,7 @@ export const ps2u = (P, s) => {
   // output
   // u:internal enagy [kJ/kg]
   
-  const state = ps2all(P, s)  
+  const state = ps2state(P, s)  
   const u = state.u
   
   return u
@@ -609,7 +677,7 @@ export const ps2v = (P, s) => {
   // output
   // v:specific volume [m^3/kg]
   
-  const state = ps2all(P, s)  
+  const state = ps2state(P, s)  
   const v = state.v
   
   return v
@@ -622,7 +690,7 @@ export const ps2t = (P, s) => {
   // output
   // t:temperature [K]
   
-  const state = ps2all(P, s)  
+  const state = ps2state(P, s)  
   const T = state.T
 
   return T 
@@ -635,7 +703,7 @@ export const ps2h = (P, s) => {
   // output
   // h:specific enthalpy [kJ/kg]
 
-  const state = ps2all(P, s)  
+  const state = ps2state(P, s)  
   const h = state.h
   
   return h;
@@ -648,7 +716,7 @@ export const ps2w = (P, s) => {
   // output
   // w:speed of sound [m/s]
 
-  const state = ps2all(P, s)  
+  const state = ps2state(P, s)  
   const w = state.w
   
   return w
@@ -661,7 +729,7 @@ export const ps2x = (P, s) => {
   // output
   // x:dryness [-]
 
-  const state = ps2all(P, s)  
+  const state = ps2state(P, s)  
   const x = state.x
   
   return x
@@ -674,7 +742,7 @@ export const ps2k = (P, s) => {
   // output
   // kappa: isentropic exponent [-]
   
-  const state = ps2all(P, s)  
+  const state = ps2state(P, s)  
   const k = state.k
 
   return k
@@ -688,7 +756,7 @@ export const ps2MM = (P, s) => {
   // output
   // MM:Region [-]
   
-  const state = ps2all(P, s)  
+  const state = ps2state(P, s)  
   const MM = state.MM
 
   return MM
