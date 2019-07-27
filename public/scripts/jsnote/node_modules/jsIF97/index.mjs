@@ -407,7 +407,7 @@ export const ph2g = (P, h) => {
   // output
   // g:gibbs specific energy [kJ/kg]
   
-  const state = propPH(P, h)
+  const state = ph2state(P, h)
   const g = state.g
   
   return g
@@ -420,7 +420,7 @@ export const ph2u = (P, h) => {
   // output
   // u:internal energy [m^3/kg]
 
-  const state = propPH(P, h)
+  const state = ph2state(P, h)
   const u = state.u
   
   return u
@@ -433,7 +433,7 @@ export const ph2v = (P, h) => {
   // output
   // v:specific volume [m^3/kg]
   
-  const state = propPH(P, h)
+  const state = ph2state(P, h)
   const v = state.v
   
   return v
@@ -446,7 +446,7 @@ export const ph2t = (P, h) => {
   // output
   // t:temperature [K]
   
-  const state = propPH(P, h)
+  const state = ph2state(P, h)
   const T = state.T
   
   return T
@@ -459,7 +459,7 @@ export const ph2s = (P, h) => {
   // output
   // s:specific entropy [kJ/kgK]
   
-  const state = propPH(P, h)
+  const state = ph2state(P, h)
   const s = state.s
   
   return s
@@ -472,7 +472,7 @@ export const ph2w = (P, h) => {
   // output
   // w:speed of sound [m/s]
   
-  const state = propPH(P, h)
+  const state = ph2state(P, h)
   const w = state.w
 
   return w
@@ -485,7 +485,7 @@ export const ph2x = (P, h) => {
   // output
   // x:dryness [-]
   
-  const state = propPH(P, h)
+  const state = ph2state(P, h)
   const x = state.x
   
   return x
@@ -498,7 +498,7 @@ export const ph2MM = (P, h) => {
   // output
   // MM:region [-]
   
-  const state = propPH(P, h)
+  const state = ph2state(P, h)
   const MM = state.MM
   
   return MM
@@ -802,9 +802,9 @@ export const hs2p = (h, s) => {
   // P:pressure [MPa]
   
   const state = hs2all(h, s)
-  const p = state.p
+  const P = state.P
   
-  return p
+  return P 
 }
   
 export const hs2t = (h, s) => {
