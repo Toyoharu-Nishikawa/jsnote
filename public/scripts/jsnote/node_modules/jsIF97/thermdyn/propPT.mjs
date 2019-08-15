@@ -35,7 +35,7 @@ export const propPT = (P, T) => {
       return state
     }
     default: {
-      throw new RangeEror("function propPT in propPT.mjs")
+      throw new RangeError("function propPT in propPT.mjs")
     }
   }
 }
