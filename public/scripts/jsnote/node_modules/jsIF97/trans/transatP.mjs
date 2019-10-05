@@ -43,7 +43,7 @@ export const transatP = (P) => {
     statetg = region_3(vg, Ttmp2)
   } 
   const vl = statel.v
-  const vg = statel.g
+  const vg = stateg.v
 
   const cpl = statel.cp
   const cpg = stateg.cp
