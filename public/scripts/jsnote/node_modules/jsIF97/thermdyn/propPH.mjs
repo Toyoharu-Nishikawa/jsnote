@@ -34,7 +34,7 @@ export const propPH = (P, h) => {
     }
     case 30 : {
       const state = ZPH_30(P, h)
-      state.x = 2   
+      state.x = -1   
       return state
     }
     case 31 : {
@@ -64,8 +64,15 @@ export const propPH = (P, h) => {
       const s = state2.s * x + state1.s * (1.0  -x) 
       const cp = -1 
 
-      const stateTmp = propPS(P, s)
-      const w = stateTmp.w 
+      const del = 1e-6
+      const Ptmp = P + del
+      const Ttmp = TsatP(Ptmp)
+      const state1Tmp = region_1(Ptmp, Ttmp)
+      const state2Tmp = region_2(Ptmp, Ttmp)
+      const xTmp = (s - state1Tmp.s) / (state2Tmp.s - state1Tmp.s)
+      const vTmp = state2Tmp.v * xTmp + state1Tmp.v * (1.0 - xTmp)
+      const kappa = - Math.log(Ptmp / P) / Math.log(vTmp / v)
+      const w = Math.sqrt(kappa * v * P * 1.0e+6)
 
       const state = {
         g: g,
@@ -77,6 +84,7 @@ export const propPH = (P, h) => {
         s: s,
         cp: cp,
         w: w,
+        k: kappa,
         x: x,
         MM: 4,
       }
@@ -97,8 +105,18 @@ export const propPH = (P, h) => {
       const s = state2.s * x + state1.s * (1.0 - x)    
       const cp = -1
 
-      const stateTmp = propPS(P, s)
-      const w = stateTmp.w 
+      const del = 1e-6
+      const Ptmp = P + del
+      const Ttmp = TsatP(Ptmp)
+      const v1Tmp = Vsatl_3(Ttmp)
+      const v2Tmp = Vsatg_3(Ttmp)
+      const state1Tmp = region_3(v1Tmp, Ttmp)
+      const state2Tmp = region_3(v2Tmp, Ttmp)
+      const xTmp = (s - state1Tmp.s) / (state2Tmp.s - state1Tmp.s)
+      const vTmp = state2Tmp.v * xTmp + state1Tmp.v * (1.0 - xTmp)
+      const kappa = -Math.log(Ptmp / P) / Math.log(vTmp / v)
+      const w = Math.sqrt(kappa * v * P * 1.0e+6)
+
       const state = {
         g: g,
         u: u,
@@ -109,6 +127,7 @@ export const propPH = (P, h) => {
         s: s,
         cp: cp,
         w: w,
+        k: kappa,
         x: x,
         MM: 4,
       }
