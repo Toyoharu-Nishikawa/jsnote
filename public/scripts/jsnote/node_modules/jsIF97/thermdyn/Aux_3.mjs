@@ -245,7 +245,7 @@ export const ZPH_30 = (P, h) => {
   for(let n=1;n<=40;n++){
     dm = (d1 + d2) * 0.5
     v = VPT_3(P, dm)
-    const state = regions_3(v, dm)
+    const state = region_3(v, dm)
     const h1 = state.h
     if(h1 >=h){
       d1 = dm
@@ -254,7 +254,7 @@ export const ZPH_30 = (P, h) => {
       d2 = dm
     }
   }
-  const state = regions_3(v, dm)
+  const state = region_3(v, dm)
   
   return state 
 }
