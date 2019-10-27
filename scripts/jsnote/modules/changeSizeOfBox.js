@@ -1,97 +1,105 @@
-export const  changeSizeOfBox = elem => {
-  let self = this
-  let drag = {
-    element: elem,
-    flag: false,
-    originalX: null,
-    originalWidth: null,
-    setElement: function(element){
-      this.element = element;
-    },
-    add:function(){
-      //console.log("add drag")
-      this.element.addEventListener('mousedown',this.mouseDown,false);
-      this.element.addEventListener('mouseup',this.mouseUp,false);
-    },
-    remove: function(){
-      //console.log("remove drag")
-      this.element.removeEventListener('mousedown',this.mouseDown,false);
-      this.element.removeEventListener('mousemove',this.mouseMove,false);
-      this.element.removeEventListener('mouseup',this.mouseUp,false);
-    },
-    mouseDown: function(e){
-      //console.log("mousedown");
-      let me = drag; 
-      me.flag = true;
-      me.originalX =  e.clientX;
-      me.originalWidth =  self.drawBoxWidth;
-      me.element.addEventListener('mousemove',me.mouseMove,false);
-    },
-    mouseUp: function(e){
-      //console.log("mouseup");
-      let me = drag; 
-      me.originalWidth =  null;
-      me.flag = false;
-      me.remove(me.element);
-    },
-    mouseMove: function(e){
-      //console.log("mousemove")
-      let me = drag; 
-      let currentX =  e.clientX;
-      self.drawBoxWidth = me.originalX - currentX + me.originalWidth;
-      self.elements.drawArea.style.width = self.drawBoxWidth + "px";
-      self.elements.draw.style.width = self.drawBoxWidth + "px";
+
+let drawBoxWidth = 500
+
+const elements = {
+  drawArea: document.getElementById("drawArea"),
+  draw: document.getElementById("draw"),
+  body: document.body,
+}
+
+const drag = {
+  element: null,
+  flag: false,
+  originalX: null,
+  originalWidth: null,
+  setElement: function(element){
+    this.element = element;
+  },
+  add:function(){
+    //console.log("add drag")
+    elements.body.onmousedown = this.mouseDown.bind(this)
+    elements.body.onmouseup = this.mouseUp.bind(this)
+  },
+  remove: function(){
+    //console.log("remove drag")
+    elements.body.onmousedown = null
+    elements.body.onmousemove = null
+    elements.body.onmouseup = null
+  },
+  mouseDown: function(e){
+    //console.log("mousedown");
+    this.flag = true;
+    this.originalX =  e.clientX;
+    this.originalWidth =  drawBoxWidth
+    elements.body.onmousemove = this.mouseMove.bind(this)
+  },
+  mouseUp: function(e){
+    //console.log("mouseup");
+    this.originalWidth =  null
+    this.flag = false
+    this.remove(this.element)
+  },
+  mouseMove: function(e){
+    //console.log("mousemove")
+    const currentX =  e.clientX;
+    drawBoxWidth = this.originalX - currentX + this.originalWidth;
+    elements.drawArea.style.width = drawBoxWidth + "px";
+    elements.draw.style.width = drawBoxWidth + "px";
+  }
+}
+
+const online = {
+  flag: false,
+  element:null,
+  setElement:function(element){
+    this.element = element
+  },
+  add: function(){
+    elements.drawArea.onmouseenter = this.mouseEnter.bind(this)
+    elements.drawArea.onmouseleave = this.mouseLeave.bind(this)
+  },
+  remove: function(){
+    this.element.onmouseenter = null 
+    this.element.onmouseleave = null
+    this.element.onmousemove = null
+  },
+  mouseEnter: function(){
+    //console.log("mouse enter")
+    elements.drawArea.onmousemove = this.mouseMove.bind(this)
+  },
+  mouseLeave: function(e){
+    //console.log("mouse leave")
+    this.flag = false;
+    e.currentTarget.style.cursor = "default";
+    elements.drawArea.onmousemove = null 
+    if(!drag.flag){
+      drag.remove()
+    } 
+  },
+  mouseMove: function(e){
+    const originX = e.offsetX
+    if(originX<10){
+      if(!this.flag){
+        this.flag = true;
+        e.currentTarget.style.cursor = "w-resize";
+        if(!drag.flag){
+          drag.add()
+        } 
+      }
     }
-  };
-  let online = {
-    flag: false,
-    element:null,
-    setElement:function(element){
-      this.element = element;
-    },
-    add: function(){
-      this.element.addEventListener('mouseenter',this.mouseEnter,false);
-      this.element.addEventListener('mouseleave',this.mouseLeave,false);
-    },
-    remove: function(){
-      this.element.removeEventListener('mouseenter',this.mouseEnter,false);
-      this.element.removeEventListener('mouseleave',this.mouseLeave,false);
-      this.element.removeEventListener('mousemove',this.mouseMove,false);
-    },
-    mouseEnter: function(){
-      //console.log("mouse enter")
-      let me = online;
-      me.element.addEventListener('mousemove',me.mouseMove,false);
-    },
-    mouseLeave: function(e){
-      //console.log("mouse leave")
-      let me = online;
-      me.flag = false;
-      e.currentTarget.style.cursor = "default";
-      me.element.removeEventListener('mousemove',me.mouseMove,false);
-      if(!drag.flag){drag.remove();} 
-    },
-    mouseMove: function(e){
-      let me = online;
-      let originX = e.offsetX;
-      if(originX<10){
-        if(!me.flag){
-          me.flag = true;
-          e.currentTarget.style.cursor = "w-resize";
-          if(!drag.flag){drag.add();} 
-        }
+    else{
+      if(this.flag) {
+        this.flag = false;
+        e.currentTarget.style.cursor = "default";
+        if(!drag.flag){
+          drag.remove()
+        } 
       }
-      else{
-        if(me.flag) {
-          me.flag = false;
-          e.currentTarget.style.cursor = "default";
-          if(!drag.flag){drag.remove();} 
-        }
-      }
-    },
-  };
-  drag.setElement(document.body)
-  online.setElement(elem);
-  online.add();
+    }
+  }
+}
+
+export const  changeSizeOfBox = () => {
+  online.add()
 }
 

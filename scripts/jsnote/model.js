@@ -23,7 +23,7 @@ export const model = {
     this.editor = editor
 
     const drawArea = view.elements.drawArea
-    changeSizeOfBox(drawArea)
+    changeSizeOfBox()
 
     keyBinding()
     fontSize()
@@ -79,6 +79,7 @@ export const model = {
   run:{
     execute:function(){
       let code = model.editor.getValue()
+      const drawArea = view.elements.drawArea
       drawArea.innerHTML = "<div id='draw'></div>"
       window.localStorage.setItem("jsnoteRemember",code)
       window.onpopstate = getCode
