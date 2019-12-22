@@ -17,7 +17,8 @@ services:
     volumes:
       - ./public:/usr/share/nginx/html
       - ./sample:/usr/share/nginx/html/sample
-      - ./conf.d:/etc/nginx/conf.d
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - /var/log/jsnote:/var/log/nginx
     networks:
       - neco_link
