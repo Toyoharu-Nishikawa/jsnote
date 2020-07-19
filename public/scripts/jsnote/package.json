@@ -12,7 +12,7 @@
     "@svgdotjs/svg.draggable.js": "^3.0.2",
     "@svgdotjs/svg.js": "^3.0.16",
     "@svgdotjs/svg.panzoom.js": "^2.1.1",
-    "ace-builds": "^1.4.11",
+    "ace-builds": "^1.4.12",
     "d3": "^5.16.0",
     "file-saver": "^2.0.2",
     "filereader": "^1.2.0",
@@ -20,10 +20,9 @@
     "mathjs": "^6.6.5",
     "necoengine": "^3.0.0",
     "p5": "^0.7.3",
-    "plotly.js-dist": "^1.54.1",
-    "sci": "^4.18.0",
+    "plotly.js-dist": "^1.54.6",
+    "sci": "^4.20.0",
     "svg.js": "^2.7.1",
-    "svgdom": "0.0.18",
     "swiper": "^4.5.1",
     "three": "^0.99.0"
   }
