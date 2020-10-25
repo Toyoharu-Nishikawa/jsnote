@@ -4,40 +4,50 @@
 /*   and wet steam region) 
 /*******************************************************************/
 
-import {ZHS_2} from "./Aux_2HS.mjs"
+import {ZHS_1} from "./Aux_1HS.mjs"
+import {ZHS_2a, ZHS_2b, ZHS_2c} from "./Aux_2HS.mjs"
+import {ZHS_3a, ZHS_3b} from "./Aux_3HS.mjs"
+import {ZHS_4} from "./Aux_4HS.mjs"
+import {RegHS} from "./Reg_hs.mjs"
 
 "use strict"
 
 export const  propHS = (h, s) => {
-  if(h <= 0){
-    throw new RangeError("function propHS enthalpy is lower than zero in propHS.mjs");
-  }
-  const state = ZHS_2(h, s)
 
-  const Nin = state.Nin 
-  //check validity
-  switch(Nin){
-    case 1 : {
-      throw new RangeError("function propPH S is too hightin propPH.mjs.");
-    }
-    case 2 : {
-      throw new RangeError("function propPH S is too low in propPH.mjs.");
-    }
-    case 3 :{
-      throw new RangeError("function propPH H is too hgiht in propPH.mjs.");
-    }
-    case 4 : {
-      throw new RangeError("function propPH H is too low in propPH.mjs.");
-    }
-    default: {
-      //check validity
-      //if(SP.nx==0){
-        //console.log("Wet region");
-      //}
-      //else{
-        //console.log("Dry region");    
-      //}
+  const M = RegHS(h, s) 
+
+  switch(M){
+    case 1:{
+      const state = ZHS_1(h, s)
       return state
+    } 
+    case 21:{
+      const state = ZHS_2a(h,s)
+      return state
+    } 
+    case 22:{
+      const state = ZHS_2b(h,s)
+      return state
+    } 
+    case 23:{
+      const state = ZHS_2c(h,s)
+      return state
+    } 
+    case 31:{
+      const state = ZHS_3a(h,s)
+      return state
+    } 
+    case 32:{
+      const state = ZHS_3b(h,s)
+      return state
+    } 
+    case 4:{
+      const state = ZHS_4(h,s)
+      return state
+    } 
+    case 0:{
+      const message = "function propHS enthalpy and entropy is out of range" + ` h is ${h}, s is ${s}`
+      throw new RangeError(message);
     }
   }
 }
