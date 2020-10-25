@@ -6,6 +6,7 @@ import {propHS} from "./thermdyn/propHS.mjs"
 import {expisPT} from "./thermdyn/expisPT.mjs"
 import {satproP} from "./thermdyn/satproP.mjs"
 import {satproT} from "./thermdyn/satproT.mjs"
+import {ZsatS} from "./thermdyn/satproS.mjs"
 
 import {transPT} from "./trans/transPT.mjs"
 import {transatP} from "./trans/transatP.mjs"
@@ -947,6 +948,24 @@ export const SATt2all = (T) => {
   return state
 }
 
+//SATlt
+export const SATs2all = (s) => {
+  // input
+  // s: entropy [kJ/kgK]
+ 
+  // output
+  //    g:Gibbs free energy,
+  //    u:internal energy,
+  //    T:temperature,
+  //    h:specific enthalpy,
+  //    s:specific entropy,
+  //    v:specific volume, 
+  //    cp:specific heat ratio, 
+  //   },
+  
+  const state= ZsatS(s)
+  return state
+}
 
 export const SATp2epsilon = (P) => {
   // input
