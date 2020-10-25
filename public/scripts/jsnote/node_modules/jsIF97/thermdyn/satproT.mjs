@@ -1,6 +1,6 @@
 /*******************************************************************/
 /* satproT.for                                                     */
-/*  (given T calculates properties of saturated liquid and vapor)
+/*  (given T calculates properties of saturated liquid and vapor)  */
 /*******************************************************************/
 
 import {region_1} from "./IF97_1.mjs"
