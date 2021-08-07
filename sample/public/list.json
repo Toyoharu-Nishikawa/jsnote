@@ -36,7 +36,8 @@
       "simple_scatter.js",
       "parse_csv.js",
       "surface_contour.js",
-      "structual_grid.js"
+      "structual_grid.js",
+      "non-dominated_sorting.js"
     ]
   },
   {
