@@ -6,7 +6,7 @@ const makeList = (l) => {
 
 const main = ()=>{
 
-  const NS = sci.optimize.NonDominatedSorting
+  const NS = sci.optimize.FastNonDominatedSorting
  
   const L = 2
   const N =200
@@ -24,8 +24,6 @@ const main = ()=>{
   console.log("elapedTime",elapsedTime,"ms")
    
   
-  const paretoRankMap = ns.getParetoRankMap()
-  console.log("paretoRankMap",paretoRankMap)
   
   const paretoData = ns.getParetoDataList()
   console.log("paretoData",paretoData)
