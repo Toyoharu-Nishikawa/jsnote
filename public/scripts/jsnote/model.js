@@ -77,14 +77,15 @@ export const model = {
   sample: sample,
   register: register,
   run:{
-    execute:function(){
+    execute:async function(){
       let code = model.editor.getValue()
       const drawArea = view.elements.drawArea
       drawArea.innerHTML = "<div id='draw'></div>"
       window.localStorage.setItem("jsnoteRemember",code)
       window.onpopstate = getCode
       removeParamFromHash("sample")
-       new Function(code)()
+      const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor
+      await new AsyncFunction(code)()
     },
   },
   keyBinding:{
