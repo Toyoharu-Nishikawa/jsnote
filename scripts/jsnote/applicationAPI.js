@@ -2,9 +2,9 @@ import {model} from "./model.js"
 
 const selfUpdate = ()=>{
   return new Promise((resolve, reject)=>{
-    document.addEventListener("self.input.update",()=>{
+    document.addEventListener("self.input.update",async()=>{
       console.log("listen event of self.input.update")
-      model.run.execute()
+      await model.run.execute()
       resolve()
     },{once:true})
     model.workbench.update()
