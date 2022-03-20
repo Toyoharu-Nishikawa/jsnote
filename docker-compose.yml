@@ -25,5 +25,5 @@ services:
       - default
 networks:
   neco_link:
-    external: true 
+    external: true
 
