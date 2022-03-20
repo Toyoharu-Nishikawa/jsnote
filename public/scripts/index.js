@@ -25,6 +25,7 @@ const main = async () =>{
     const workbench = new necoengine.Workbench(connection, post)
     //jsnote.initialize(workbench)
     jsnote.setWorkbench.add(workbench)
+    window.workbench = workbench
   }
   catch(e){
     console.log("necoengine is not alive")
