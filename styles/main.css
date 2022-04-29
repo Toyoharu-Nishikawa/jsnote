@@ -126,6 +126,7 @@ main > article {
   height: 100%;
   margin-left: auto;
   margin-right: auto;
+  overflow :hidden;
 }
 
 .swiper-slide > h2 {
