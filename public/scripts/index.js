@@ -1,8 +1,8 @@
 import {jsnote} from "./jsnote/index.mjs"
 import {post} from "./jsnote/applicationAPI.js"
 import {connection} from "./workbench.js"
-import * as if97 from "./jsIF97/index.mjs"
-import * as sci from "./sci/index.mjs"
+import * as if97 from "./jsIF97/index.js"
+import * as sci from "./sci/index.js"
 
 //import {login, Workbench} from "./necoengine/index.js"
 //import {login, Workbench} from "/necoengine/scripts/necoengine/index.js"
