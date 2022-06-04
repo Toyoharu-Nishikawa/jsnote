@@ -19,9 +19,6 @@ export const model = {
   sampleFlag: false,
   registerFlag: false,
   initialize:function(){
-    const editor = edit.initialize()
-    this.editor = editor
-
     const drawArea = view.elements.drawArea
     changeSizeOfBox()
 
@@ -78,14 +75,6 @@ export const model = {
   register: register,
   run:{
     execute:async function(){
-      let code = model.editor.getValue()
-      const drawArea = view.elements.drawArea
-      drawArea.innerHTML = "<div id='draw'></div>"
-      window.localStorage.setItem("jsnoteRemember",code)
-      window.onpopstate = getCode
-      removeParamFromHash("sample")
-      const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor
-      await new AsyncFunction(code)()
     },
   },
   keyBinding:{
