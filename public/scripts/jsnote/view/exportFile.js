@@ -10,4 +10,5 @@ export const initialize = () => {
 
 const execute = (e) => {
   e.stopPropagation()
+  exportFile()
 }

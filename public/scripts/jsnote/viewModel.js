@@ -1,5 +1,5 @@
 import * as view from "./view.js"
-//import * as model from "./model.js"
+import * as model from "./model.js"
 
 export const initialize = (workbench) => {
   view.drawCheckBox.initialize()
@@ -10,6 +10,7 @@ export const initialize = (workbench) => {
   view.keyBinding.initialize()
   view.read.initialize()
   view.run.initialize()
+  view.sample.initialize()
   view.save.initialize()
 
   initializeCode()
@@ -18,20 +19,24 @@ export const initialize = (workbench) => {
   initializeKeyBinding()
 }
 
-export const read = () => {
-
+export const read = (text, filename) => {
+  //view.editor.setValue('');
+  console.log(`read ${filename}`)
+  view.editor.setValue(text)
 }
 
 export const save = () => {
+  const string = view.editor.getValue()
+  const blob = new Blob([string],{type:'text/plain;charset=utf-8;'})
+  saveAs(blob, 'jsnote.txt')
 
 }
 
-export const importFile = () => {
-
-}
 
 export const exportFile = () => {
-
+  const exportText = window.exportText
+  const exportFileName = window.exportFileName
+  model.save.saveStringAsFile(exportText, exportFileName)
 }
 
 export const run = async () => {
@@ -158,4 +163,44 @@ export const changeDrawBox = (isChecked) => {
     window.localStorage.setItem("drawCheckBox",0)
   }
   history.replaceState('','',url.href);
+}
+
+export const getSample = async () => {
+  try{
+    const publicSample  = await fetch("./sample/public/list.json")
+    if(publicSample.status !==200){
+      console.log("server error")
+    }
+    else{
+      const publicList = await publicSample.json()
+      view.sampleArea.setSampleArea(publicList, "public", true)
+    }
+  }
+  catch(e){
+    console.log("http request error")
+  }
+
+  try{
+    const privateSample = await fetch("./sample/private/sample.json")
+    if(privateSample.status !==200){
+      console.log("server error")
+    }
+    else{
+      const privateList = await privateSample.json()
+      view.sampleArea.setSampleArea(privateList, "private", false)
+    }
+  }
+  catch(e){
+    console.log("http request error")
+  }
+}
+
+export const insertSampleURL = (PoP, directory, code) => {
+  const query = "sample/" + PoP + "/" + directory + "/" +code;
+ 
+  const url = new URL(window.location.href)
+  const params = url.searchParams
+  url.searchParams.set("sample", query) 
+  history.replaceState('','',url.href);
+
 }

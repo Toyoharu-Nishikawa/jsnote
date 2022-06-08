@@ -7,6 +7,8 @@ export * as keyBinding from "./view/keyBinding.js"
 export * as importFile from "./view/importFile.js"
 export * as read from "./view/read.js"
 export * as run from "./view/run.js"
+export * as sample from "./view/sample.js"
+export * as sampleArea from "./view/sampleArea.js"
 export * as save from "./view/save.js"
 
 
