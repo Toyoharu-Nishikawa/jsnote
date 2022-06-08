@@ -8,7 +8,7 @@ export const initialize = () => {
   elements.save.onclick = execute
 }
 
-const execute = () => {
+const execute = (e) => {
   e.stopPropagation()
   save()
 }
