@@ -4,11 +4,11 @@ const elements = {
     sampleArea: document.getElementById("sampleArea"),
 }
 
-const initialize = () => {
+export const initialize = () => {
   elements.sampleArea.onclick = execute
 }
 
-const execute = () => {
+const execute = (e) => {
    e.stopPropagation()
 }
 
