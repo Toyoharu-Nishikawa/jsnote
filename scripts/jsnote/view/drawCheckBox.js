@@ -15,6 +15,11 @@ export const execute = (e) => {
    changeDrawBox(isChecked)
 }
 
+export const fromKey = () => {
+   const isChecked = elements.drawCheckBox.checked
+   elements.drawCheckBox.checked = !isChecked
+   changeDrawBox(!isChecked)
+}
 export const check = (isChecked) => {
   const drawCheckBoxElem = elements.drawCheckBox
   drawCheckBoxElem.checked = isChecked

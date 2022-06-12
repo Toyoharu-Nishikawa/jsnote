@@ -61,9 +61,9 @@ const initializeCode = async () => {
     view.editor.setValue(string)
   }
   else{
-    const url = url.searchParams.get("sample")
+    const query = url.searchParams.get("sample")
     try{
-      const res = await fetch(url)
+      const res = await fetch(query)
       const st = res.status
       switch(st){
         case 200:{
@@ -198,12 +198,32 @@ export const getSample = async () => {
   }
 }
 
-export const insertSampleURL = (PoP, directory, code) => {
+export const insertSampleURL = async (PoP, directory, code) => {
   const query = "sample/" + PoP + "/" + directory + "/" +code;
  
-  const url = new URL(window.location.href)
-  const params = url.searchParams
-  url.searchParams.set("sample", query) 
-  history.replaceState('','',url.href);
+  try{
+    const res = await fetch(query)
+    const st = res.status
+    switch(st){
+      case 200:{
+        const text = await res.text()
+        view.editor.setValue(text)
+        const url = new URL(window.location.href)
+        const params = url.searchParams
+        url.searchParams.set("sample", query) 
+        history.replaceState('','',url.href);
+
+        break
+      }
+      default:{
+        console.log("http request error")
+        break
+      }
+    }
+  } 
+  catch(e){
+    console.log(e.message)
+    console.log("http request error")
+  }
 
 }
