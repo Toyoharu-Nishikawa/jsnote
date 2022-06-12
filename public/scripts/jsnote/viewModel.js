@@ -1,7 +1,11 @@
 import * as view from "./view.js"
 import * as model from "./model.js"
+import {applicationAPI} from "./applicationAPI.js"
+
+export let wb = null
 
 export const initialize = (workbench) => {
+  wb = workbench
   view.drawCheckBox.initialize()
   view.editor.initialize()
   view.exportFile.initialize()
@@ -20,6 +24,7 @@ export const initialize = (workbench) => {
   initializeDrawCheckBox()
   initializeFontSize()
   initializeKeyBinding()
+  applicationAPI(workbench)
 }
 
 export const read = (text, filename) => {
@@ -50,7 +55,8 @@ export const run = async () => {
   history.replaceState('','',url.href);
   window.localStorage.setItem("jsnoteRemember",code)
   const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor
-  await new AsyncFunction(code)()
+  const res = await new AsyncFunction(code)()
+  return res
 }
 
 const initializeCode = async () => {
