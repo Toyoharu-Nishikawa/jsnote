@@ -169,33 +169,12 @@ export const changeDrawBox = (isChecked) => {
 }
 
 export const getSample = async () => {
-  try{
-    const publicSample  = await fetch("./sample/public/list.json")
-    if(publicSample.status !==200){
-      console.log("server error")
-    }
-    else{
-      const publicList = await publicSample.json()
-      view.sampleArea.setSampleArea(publicList, "public", true)
-    }
-  }
-  catch(e){
-    console.log("http request error")
-  }
+  const  publicList = await model.network.getPublicSamples()
+  view.sampleArea.setSampleArea(publicList, "public", true)
 
-  try{
-    const privateSample = await fetch("./sample/private/sample.json")
-    if(privateSample.status !==200){
-      console.log("server error")
-    }
-    else{
-      const privateList = await privateSample.json()
-      view.sampleArea.setSampleArea(privateList, "private", false)
-    }
-  }
-  catch(e){
-    console.log("http request error")
-  }
+  const  privateList = await model.network.getPrivateSamples()
+  view.sampleArea.setSampleArea(privateList, "private", false)
+
 }
 
 export const insertSampleURL = async (PoP, directory, code) => {
@@ -225,5 +204,21 @@ export const insertSampleURL = async (PoP, directory, code) => {
     console.log(e.message)
     console.log("http request error")
   }
-
 }
+
+export const setRegister = async () => {
+  const  privateList = await model.network.getPrivateSamples()
+  view.registerArea.setRegisterArea(privateList)
+}
+
+export const sendToRegister = async(json) => {
+  const code = view.editor.getValue()
+  if(code){
+    json.code = code
+    await model.network.postRegister(json)
+  }
+  else{
+    messageElem.textContent ="the contents of editor is empty.";
+  }
+}
+ 
