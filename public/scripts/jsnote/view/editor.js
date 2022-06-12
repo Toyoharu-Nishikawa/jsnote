@@ -1,5 +1,5 @@
 import {run} from "../viewModel.js"
-import {execute as drwaCheck} from "./drawCheckBox.js"
+import {fromKey} from "./drawCheckBox.js"
 
 const elements = {
     editor: document.getElementById("editor"),
@@ -30,9 +30,7 @@ export const initialize = () => {
   editor.commands.addCommand({
     name:'draw',
     bindKey: {win:'Shift-Tab',mac:'Shift-Tab'},
-    exec: function(){
-      drawCheck()
-    },
+    exec:fromKey
   })
     
   editor.commands.addCommand({
