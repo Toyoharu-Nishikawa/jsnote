@@ -9,8 +9,11 @@ export const initialize = (workbench) => {
   view.importFile.initialize()
   view.keyBinding.initialize()
   view.read.initialize()
+  view.register.initialize()
+  view.registerArea.initialize()
   view.run.initialize()
   view.sample.initialize()
+  view.sampleArea.initialize()
   view.save.initialize()
 
   initializeCode()
