@@ -6,6 +6,7 @@ export let wb = null
 
 export const initialize = (workbench) => {
   wb = workbench
+  view.drawArea.initialize()
   view.drawCheckBox.initialize()
   view.editor.initialize()
   view.exportFile.initialize()
