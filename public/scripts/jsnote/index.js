@@ -1,4 +1,4 @@
-export {control as jsnote} from "./control.js"
+export {initialize} from "./viewModel.js"
 
 window.importTexts = []
 window.exportText = ""

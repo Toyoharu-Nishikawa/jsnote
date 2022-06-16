@@ -1,4 +1,23 @@
-import {model} from "./model.js"
+import {run} from "./viewModel.js"
+
+export const applicationAPI  = (workbench) => {
+  const app = workbench.express()
+
+  app.update("/run", async (req,res)=>{
+    const result = await run() || window.workbenchOutput
+    res.json(result)
+
+//    const flag = window.workbenchUpdateChain
+//    if(flag){
+//      console.log("self update end")
+//    }
+//    workbenchOutput 
+
+  })
+}
+
+
+
 
 const selfUpdate = ()=>{
   return new Promise((resolve, reject)=>{
