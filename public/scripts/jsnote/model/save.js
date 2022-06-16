@@ -1,6 +1,6 @@
 
-export const saveStringAsFile = function (){
-  const filename = window.exportFileName || "jsnote_export.txt"
+export const saveStringAsFile = (exportText, exportFileName) => {
+  const filename = exportFileName || "jsnote_export.txt"
   if(Array.isArray(filename)){
     if(Array.isArray(exportText)){
       let count = 0
@@ -79,5 +79,5 @@ export const saveStringAsFile = function (){
       exportFileBOM = true 
     }
   }
-};
+}
 
