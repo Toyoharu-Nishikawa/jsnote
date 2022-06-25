@@ -37,3 +37,6 @@ var SP= {
 const a = if97.SATp2all(P)
 console.log(a)
 
+console.log(if97.pt2all(0.1, 500,0.6))
+console.log(if97.hs2state(2000, 7))
+
