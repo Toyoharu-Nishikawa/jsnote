@@ -26,6 +26,7 @@ import {surfsatP} from "./others/surfsatP.js"
 //version()
 
 //pt2state(P, T) 
+//pt2all(P, T, lambda) 
 //pt2g(P, T) 
 //pt2u(P, T)
 //pt2v(P, T)
@@ -47,6 +48,7 @@ import {surfsatP} from "./others/surfsatP.js"
 //pt2ref(P, T, lambda)
 
 //ph2state(P, h)
+//ph2all(P, h)
 //ph2g(P, h)
 //ph2u(P, h)
 //ph2v(P, h)
@@ -61,6 +63,7 @@ import {surfsatP} from "./others/surfsatP.js"
 //ph2k(P, h)
 
 //ps2state(P, s)
+//ps2all(P, s)
 //ps2g(P, s)
 //ps2u(P, s)
 //ps2v(P, s)
@@ -71,6 +74,7 @@ import {surfsatP} from "./others/surfsatP.js"
 //ps2k(P, s)
 //ps2MM(P, s)
 
+//hs2state(h, s)
 //hs2all(h, s)
 //hs2g(h, s)
 //hs2u(h, s)
@@ -765,8 +769,13 @@ export const ps2MM = (P, s) => {
 }
   
 //hs
-export const hs2all = (h, s) => {
+export const hs2state = (h, s) => {
   const state = propHS(h, s)
+  return state
+}
+
+export const hs2all = (h, s) => {
+  const state = hs2state(h, s)
   return state
 }
 
@@ -777,7 +786,7 @@ export const hs2g = (h, s) => {
   // output
   // g:gibbs free energy [kJ/kg]
   
-  const state = hs2all(h, s)
+  const state = hs2state(h, s)
   const g = state.g
 
   return g
@@ -790,7 +799,7 @@ export const hs2u = (h, s) => {
   // output
   // u:internal energy [kJ/kg]
   
-  const state = hs2all(h, s)
+  const state = hs2state(h, s)
   const u = state.u
   
   return u
@@ -803,7 +812,7 @@ export const hs2p = (h, s) => {
   // output
   // P:pressure [MPa]
   
-  const state = hs2all(h, s)
+  const state = hs2state(h, s)
   const P = state.P
   
   return P 
@@ -816,7 +825,7 @@ export const hs2t = (h, s) => {
   // output
   // t:temperature [K]
 
-  const state = hs2all(h, s)
+  const state = hs2state(h, s)
   const T = state.T
   
   return T 
@@ -829,7 +838,7 @@ export const hs2v = (h, s) => {
   // output
   // v:specific volume [m^3/kg]
   
-  const state = hs2all(h, s)
+  const state = hs2state(h, s)
   const v = state.v
   
   return v
@@ -842,7 +851,7 @@ export const hs2w = (h, s) => {
   // output
   // w:speed of sound [m/s]
   
-  const state = hs2all(h, s)
+  const state = hs2state(h, s)
   const w = state.w
   
   return w
@@ -855,7 +864,7 @@ export const hs2x = (h, s) => {
   // output
   // w:speed of sound [m/s]
 
-  const state = hs2all(h, s)
+  const state = hs2state(h, s)
   const x = state.x
   
   return x
