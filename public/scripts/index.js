@@ -12,8 +12,10 @@ const main = async () =>{
     necoengine.login.setLoginButton()
     necoengine.login.visit()
     const workbench = new necoengine.Workbench()
+    const miniWorkbench = new necoengine.MiniWorkbench()
     initialize(workbench)
     window.workbench = workbench
+    window.miniWorkbench = miniWorkbench
   }
   catch(e){
     console.log("error",e.message)
