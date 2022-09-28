@@ -14,7 +14,7 @@ const main = async () =>{
     const workbench = new necoengine.Workbench()
     initialize(workbench)
     window.workbench = workbench
-    window.MiniWorkbench = necoengine.MiniWorkbench(
+    window.MiniWorkbench = necoengine.MiniWorkbench
   }
   catch(e){
     console.log("error",e.message)
