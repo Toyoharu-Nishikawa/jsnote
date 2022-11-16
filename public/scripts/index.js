@@ -19,6 +19,7 @@ const main = async () =>{
   catch(e){
     console.log("error",e.message)
     console.log("necoengine is not alive")
+    initialize()
   }
 }
 

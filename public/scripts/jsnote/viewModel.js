@@ -25,7 +25,10 @@ export const initialize = (workbench) => {
   initializeDrawCheckBox()
   initializeFontSize()
   initializeKeyBinding()
-  applicationAPI(workbench)
+
+  if(workbench !==undefined){
+    applicationAPI(workbench)
+  }
 }
 
 export const read = (text, filename) => {
