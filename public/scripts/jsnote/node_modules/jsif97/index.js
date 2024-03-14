@@ -893,7 +893,7 @@ export const SATt2p = (T) => {
   
   
   const {l, g} = satproT(T)
-  P = l.P
+  const P = l.P
   
   return P 
 }

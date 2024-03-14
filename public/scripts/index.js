@@ -1,5 +1,5 @@
 import {initialize} from "./jsnote/index.js"
-import * as if97 from "./jsIF97/index.js"
+import * as if97 from "./jsif97/index.js"
 import * as sci from "./sci/index.js"
 
 
@@ -15,6 +15,7 @@ const main = async () =>{
     initialize(workbench)
     window.workbench = workbench
     window.MiniWorkbench = necoengine.MiniWorkbench
+    workbench.informInitializationComplete()
   }
   catch(e){
     console.log("error",e.message)
